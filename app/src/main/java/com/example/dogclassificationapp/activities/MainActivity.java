@@ -17,8 +17,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.dogclassificationapp.R;
-import com.example.dogclassificationapp.custom_views.dogs_activities_view.DogImageMainMode;
-import com.example.dogclassificationapp.custom_views.dogs_activities_view.DogImageMainView;
+import com.example.dogclassificationapp.custom_views.dogs_activities_view.DogActivitiesMode;
+import com.example.dogclassificationapp.custom_views.dogs_activities_view.DogActivitiesView;
 
 import java.io.IOException;
 
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView dogImageView;
 
     // The main screen view that will hold both the image picking activity and the database activity:
-    private DogImageMainView dogActivitiesView;
+    private DogActivitiesView dogActivitiesView;
 
     // Since the classifier only accepts images of size 256x256, the presented dog image must be
     // resized to those dimensions:
@@ -216,6 +216,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void onMenuDatabaseButtonClick(View view) {
         // Changing the mode of the activity to database:
-        this.dogActivitiesView.setMode(DogImageMainMode.DATABASE);
+        this.dogActivitiesView.setMode(DogActivitiesMode.DATABASE);
     }
 }

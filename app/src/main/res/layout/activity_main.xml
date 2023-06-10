@@ -13,7 +13,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.9" />
 
-    <com.example.dogclassificationapp.custom_views.dogs_activities_view.DogImageMainView
+    <com.example.dogclassificationapp.custom_views.dogs_activities_view.DogActivitiesView
         android:id="@+id/dog_image_view_main"
         android:layout_width="0dp"
         android:layout_height="0dp"

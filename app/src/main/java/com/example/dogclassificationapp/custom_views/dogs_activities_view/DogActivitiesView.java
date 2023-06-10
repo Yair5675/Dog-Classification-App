@@ -16,25 +16,25 @@ import com.example.dogclassificationapp.R;
  * in the DogImageMainMode enum's documentation.
  * The view provides functionality for both activities and allows to transition between them.
  */
-public class DogImageMainView extends ViewGroup {
-    private DogImageMainMode mode; /* The current mode of the view */
+public class DogActivitiesView extends ViewGroup {
+    private DogActivitiesMode mode; /* The current mode of the view */
     private View databaseViews; /* All the views of the database mode */
     private View preClassifierViews; /* All the views of the pre-classifier mode */
 
     // The default mode of the view (will be the mode when creating the view):
-    private static final DogImageMainMode DEFAULT_MODE = DogImageMainMode.PRE_CLASSIFIER;
+    private static final DogActivitiesMode DEFAULT_MODE = DogActivitiesMode.PRE_CLASSIFIER;
 
-    public DogImageMainView(Context context) {
+    public DogActivitiesView(Context context) {
         super(context);
         this.init();
     }
 
-    public DogImageMainView(Context context, AttributeSet attrs) {
+    public DogActivitiesView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.init();
     }
 
-    public DogImageMainView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DogActivitiesView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.init();
     }
@@ -51,7 +51,7 @@ public class DogImageMainView extends ViewGroup {
         this.updateViews();
     }
 
-    public DogImageMainMode getMode() {
+    public DogActivitiesMode getMode() {
         return mode;
     }
 
@@ -70,7 +70,7 @@ public class DogImageMainView extends ViewGroup {
         }
     }
 
-    public void setMode(DogImageMainMode mode) {
+    public void setMode(DogActivitiesMode mode) {
         // Making a slide transition:
         if (this.mode != mode)
             this.animateTransition(mode);
@@ -93,7 +93,7 @@ public class DogImageMainView extends ViewGroup {
      * @param newMode The new mode that the view will transition into (should be different from the
      *                current mode).
      */
-    private void animateTransition(DogImageMainMode newMode) {
+    private void animateTransition(DogActivitiesMode newMode) {
         // Choosing the correct animation based on the new mode:
         int inAnimationID, outAnimationID;
 

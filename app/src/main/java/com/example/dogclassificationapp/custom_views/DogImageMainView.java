@@ -101,15 +101,15 @@ public class DogImageMainView extends ViewGroup {
         int inAnimationID, outAnimationID;
 
         switch (newMode) {
-            // If the new mode is pre-classifier, make the activity slide to the right:
+            // If the new mode is pre-classifier, make the activity slide to the left:
             case PRE_CLASSIFIER:
-                inAnimationID = R.anim.slide_in_right;
-                outAnimationID = R.anim.slide_out_right;
-                break;
-            // If the new mode is database, make the activity slide to the left:
-            case DATABASE:
                 inAnimationID = R.anim.slide_in_left;
                 outAnimationID = R.anim.slide_out_left;
+                break;
+            // If the new mode is database, make the activity slide to the right:
+            case DATABASE:
+                inAnimationID = R.anim.slide_in_right;
+                outAnimationID = R.anim.slide_out_right;
                 break;
             // The code shouldn't reach here, but if it does cancel the animation:
             default: return;

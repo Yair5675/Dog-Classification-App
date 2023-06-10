@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Dog Classification App</string>
+
+    <!-- Strings for the main activity: -->
+    <string name="main_title_txt"><B>Take a picture of your dog!</B></string>
+    <string name="main_camera_btn_txt"><b>Camera</b>  📷</string>
+    <string name="main_gallery_btn_txt"><B>Gallery</B>  💾</string>
+    <string name="main_confirm_img_btn_txt"><B>See results</B></string>
+
+    <string name="main_toast_camera_error_txt">Something went wrong with the camera</string>
+    <string name="main_toast_gallery_error_txt">Something went wrong with the gallery</string>
+
+    <!-- Strings for the classifier activity: -->
+    <string name="classifier_result_title_txt"><B>Result:</B> %s</string>
+
+    <!-- Strings for the breeds-adapter: -->
+    <string name="adapter_breeds_title_txt"><B>Breed: %s</B></string>
+    <string name="adapter_breeds_confidence_txt"><B>Confidence: %d</B></string>
+
+    <!-- Content description for the various images in the app: -->
+
+    <!-- The menu buttons' descriptions: -->
+    <string name="menu_main_btn_desc">Launches the main activity in the app</string>
+    <string name="menu_dataset_btn_desc">Launches the dataset activity in the app</string>
+
+    <!-- The dog image in the main and classifier activities: -->
+    <string name="dog_img_desc">The image that the user has picked from their gallery or filmed</string>
+
+    <!-- The dog breed image in the breeds-adapter: -->
+    <string name="adapter_breeds_image_desc">Contains a general random image of the dog breed presented</string>
+
+    <!-- The wikipedia API link:-->
+    <string name="wikipedia_api_link">https://en.wikipedia.org/w/api.php?action=query&amp;generator=search&amp;gsrsearch=${search here}&amp;gsrlimit=20&amp;prop=extracts&amp;exintro&amp;explaintext&amp;exlimit=max&amp;format=json&amp;origin=*</string>
+
+</resources>

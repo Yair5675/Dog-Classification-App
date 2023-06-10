@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ClassifierActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/classifier_mid_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <ListView
+        android:id="@+id/classifier_breeds_listview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/classifier_mid_divider" />
+
+    <ImageView
+        android:id="@+id/classifier_main_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/dog_img_desc"
+        app:layout_constraintBottom_toTopOf="@+id/classifier_breeds_listview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/main_default_dog_img" />
+
+    <TextView
+        android:id="@+id/classifier_result_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/classifier_result_title_txt"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/classifier_main_img"
+        app:layout_constraintEnd_toEndOf="@+id/classifier_main_img"
+        app:layout_constraintStart_toStartOf="@+id/classifier_main_img" />
+</androidx.constraintlayout.widget.ConstraintLayout>

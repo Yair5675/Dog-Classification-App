@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.dogclassificationapp.R;
+import com.example.dogclassificationapp.custom_views.DogImageMainMode;
+import com.example.dogclassificationapp.custom_views.DogImageMainView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -43,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
     // The dog image given by the user:
     private ImageView dogImageView;
 
+    // The main screen view that will hold both the image picking activity and the database activity:
+    private DogImageMainView dogActivitiesView;
+
     // Since the classifier only accepts images of size 256x256, the presented dog image must be
     // resized to those dimensions:
     private static final int IMAGE_WIDTH = 256;
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         this.confirmBtn = findViewById(R.id.confirm_img_btn_main);
         this.dogImageView = findViewById(R.id.chosen_img_main);
         this.menuDatabaseBtn = findViewById(R.id.menu_dataset_btn);
+        this.dogActivitiesView = findViewById(R.id.dog_image_view_main);
 
         // Setting the confirmation button to not visible because no image is selected:
         this.confirmBtn.setVisibility(View.GONE);
@@ -212,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view The menu's database button which was clicked.
      */
     private void onMenuDatabaseButtonClick(View view) {
-
+        // Changing the mode of the activity to database:
+        this.dogActivitiesView.setMode(DogImageMainMode.DATABASE);
     }
 }

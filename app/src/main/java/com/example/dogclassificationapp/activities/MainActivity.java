@@ -8,21 +8,18 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.dogclassificationapp.R;
-import com.example.dogclassificationapp.custom_views.DogImageMainMode;
-import com.example.dogclassificationapp.custom_views.DogImageMainView;
+import com.example.dogclassificationapp.custom_views.dogs_activities_view.DogImageMainMode;
+import com.example.dogclassificationapp.custom_views.dogs_activities_view.DogImageMainView;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {

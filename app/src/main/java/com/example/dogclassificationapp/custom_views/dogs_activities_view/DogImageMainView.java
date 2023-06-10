@@ -1,11 +1,8 @@
-package com.example.dogclassificationapp.custom_views;
+package com.example.dogclassificationapp.custom_views.dogs_activities_view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.transition.Slide;
-import android.transition.TransitionManager;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

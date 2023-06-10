@@ -1,4 +1,4 @@
-package com.example.dogclassificationapp.custom_views;
+package com.example.dogclassificationapp.custom_views.dogs_activities_view;
 
 /**
  * The two modes of the DogImageMainView:

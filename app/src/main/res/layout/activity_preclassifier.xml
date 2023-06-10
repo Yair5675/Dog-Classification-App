@@ -10,7 +10,7 @@
         android:id="@+id/title_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_title_txt"
+        android:text="@string/pre_classifier_title_txt"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/chosen_img_main"
         app:layout_constraintEnd_toStartOf="@+id/right_lim_main"
@@ -28,14 +28,14 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/left_lim_main"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/main_default_dog_img" />
+        app:srcCompat="@drawable/pre_classifier_default_dog_img" />
 
     <Button
         android:id="@+id/confirm_img_btn_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/main_confirm_img_btn_txt"
+        android:text="@string/pre_classifier_confirm_img_btn_txt"
         app:layout_constraintEnd_toStartOf="@+id/right_lim_main"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/left_lim_main"
@@ -45,7 +45,7 @@
         android:id="@+id/gallery_btn_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_gallery_btn_txt"
+        android:text="@string/pre_classifier_gallery_btn_txt"
         app:flow_horizontalBias="0.1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/camera_btn_main"
@@ -71,7 +71,7 @@
         android:id="@+id/camera_btn_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_camera_btn_txt"
+        android:text="@string/pre_classifier_camera_btn_txt"
         app:flow_horizontalBias="0.1"
         app:layout_constraintBottom_toBottomOf="@+id/gallery_btn_main"
         app:layout_constraintEnd_toStartOf="@+id/right_lim_main"

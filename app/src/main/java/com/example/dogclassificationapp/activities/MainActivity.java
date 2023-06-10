@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void resetDogImage() {
         this.dogImage = null;
-        this.dogImageView.setImageResource(R.drawable.main_default_dog_img);
+        this.dogImageView.setImageResource(R.drawable.pre_classifier_default_dog_img);
 
         // Setting the confirmation button visibility to gone:
         this.confirmBtn.setVisibility(View.GONE);
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
      * Creates and shows an error toast message about the camera.
      */
     private void makeCameraToastError() {
-        final String CAMERA_ERROR_MSG = getString(R.string.main_toast_camera_error_txt);
+        final String CAMERA_ERROR_MSG = getString(R.string.pre_classifier_toast_camera_error_txt);
         Toast.makeText(this, CAMERA_ERROR_MSG, Toast.LENGTH_LONG).show();
     }
 
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
      * Creates and shows an error toast message about the gallery.
      */
     private void makeGalleryToastError() {
-        final String CAMERA_ERROR_MSG = getString(R.string.main_toast_gallery_error_txt);
+        final String CAMERA_ERROR_MSG = getString(R.string.pre_classifier_toast_gallery_error_txt);
         Toast.makeText(this, CAMERA_ERROR_MSG, Toast.LENGTH_LONG).show();
     }
 

@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toTopOf="@+id/classifier_breeds_listview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/main_default_dog_img" />
+        app:srcCompat="@drawable/pre_classifier_default_dog_img" />
 
     <TextView
         android:id="@+id/classifier_result_title"

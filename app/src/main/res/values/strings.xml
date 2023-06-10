@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Dog Classification App</string>
 
-    <!-- Strings for the main activity: -->
-    <string name="main_title_txt"><B>Take a picture of your dog!</B></string>
-    <string name="main_camera_btn_txt"><b>Camera</b>  📷</string>
-    <string name="main_gallery_btn_txt"><B>Gallery</B>  💾</string>
-    <string name="main_confirm_img_btn_txt"><B>See results</B></string>
+    <!-- Strings for the pre-classifier activity: -->
+    <string name="pre_classifier_title_txt"><B>Take a picture of your dog!</B></string>
+    <string name="pre_classifier_camera_btn_txt"><b>Camera</b>  📷</string>
+    <string name="pre_classifier_gallery_btn_txt"><B>Gallery</B>  💾</string>
+    <string name="pre_classifier_confirm_img_btn_txt"><B>See results</B></string>
 
-    <string name="main_toast_camera_error_txt">Something went wrong with the camera</string>
-    <string name="main_toast_gallery_error_txt">Something went wrong with the gallery</string>
+    <string name="pre_classifier_toast_camera_error_txt">Something went wrong with the camera</string>
+    <string name="pre_classifier_toast_gallery_error_txt">Something went wrong with the gallery</string>
 
     <!-- Strings for the classifier activity: -->
     <string name="classifier_result_title_txt"><B>Result:</B> %s</string>

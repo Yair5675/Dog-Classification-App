@@ -5,6 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/top_lim_menu"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/menu_dataset_btn"
         android:layout_width="wrap_content"
@@ -30,14 +41,4 @@
         app:layout_constraintTop_toTopOf="@+id/menu_dataset_btn"
         app:srcCompat="@drawable/menu_icons_main_selected" />
 
-    <View
-        android:id="@+id/top_lim_menu"
-        android:layout_width="0dp"
-        android:layout_height="3dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

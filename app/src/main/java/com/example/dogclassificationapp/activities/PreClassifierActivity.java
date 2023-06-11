@@ -22,7 +22,7 @@ import com.example.dogclassificationapp.custom_views.dogs_activities_view.DogAct
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class PreClassifierActivity extends AppCompatActivity {
 
     // The button to take a picture from the camera:
     private Button cameraBtn;

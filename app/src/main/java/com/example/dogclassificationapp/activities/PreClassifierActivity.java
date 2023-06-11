@@ -20,6 +20,10 @@ import com.example.dogclassificationapp.R;
 
 import java.io.IOException;
 
+/**
+ * This activity is launched before the classifier activity, and is responsible for asking the user
+ * for a photo and preprocessing it to fit the classifier's input.
+ */
 public class PreClassifierActivity extends AppCompatActivity {
 
     // The button to take a picture from the camera:
@@ -201,7 +205,7 @@ public class PreClassifierActivity extends AppCompatActivity {
      * @param view The confirmation button that was clicked.
      */
     private void onConfirmButtonClick(View view) {
-
+        // TODO: When the Classifier activity is done, launch it from here.
     }
 
     /**
@@ -209,6 +213,6 @@ public class PreClassifierActivity extends AppCompatActivity {
      * @param view The menu's database button which was clicked.
      */
     private void onMenuDatabaseButtonClick(View view) {
-
+        // TODO: When the Database activity is done, launch it from here with animation
     }
 }

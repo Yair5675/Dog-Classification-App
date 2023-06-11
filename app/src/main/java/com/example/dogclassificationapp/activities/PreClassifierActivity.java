@@ -48,13 +48,13 @@ public class PreClassifierActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preclassifier);
+        setContentView(R.layout.activity_pre_classifier);
 
         // Loading the views:
-        this.cameraBtn = findViewById(R.id.camera_btn_main);
-        this.galleryBtn = findViewById(R.id.gallery_btn_main);
-        this.confirmBtn = findViewById(R.id.confirm_img_btn_main);
-        this.dogImageView = findViewById(R.id.chosen_img_main);
+        this.cameraBtn = findViewById(R.id.camera_btn_pre_classifier);
+        this.galleryBtn = findViewById(R.id.gallery_btn_pre_classifier);
+        this.confirmBtn = findViewById(R.id.confirm_img_btn_pre_classifier);
+        this.dogImageView = findViewById(R.id.chosen_img_pre_classifier);
         this.menuDatabaseBtn = findViewById(R.id.menu_dataset_btn);
 
         // Setting the confirmation button to not visible because no image is selected:

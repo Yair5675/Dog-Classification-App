@@ -6,41 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".activities.ClassifierActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/classifier_mid_divider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <ListView
-        android:id="@+id/classifier_breeds_listview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/classifier_mid_divider" />
-
-    <ImageView
-        android:id="@+id/classifier_main_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="@string/dog_img_desc"
-        app:layout_constraintBottom_toTopOf="@+id/classifier_breeds_listview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/pre_classifier_default_dog_img" />
-
     <TextView
-        android:id="@+id/classifier_result_title"
+        android:id="@+id/result_title_classifier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/classifier_result_title_txt"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/classifier_main_img"
-        app:layout_constraintEnd_toEndOf="@+id/classifier_main_img"
-        app:layout_constraintStart_toStartOf="@+id/classifier_main_img" />
+        app:layout_constraintBottom_toTopOf="@+id/main_img_classifier"
+        app:layout_constraintEnd_toEndOf="@+id/main_img_classifier"
+        app:layout_constraintStart_toStartOf="@+id/main_img_classifier" />
+
+    <ImageView
+        android:id="@+id/main_img_classifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/dog_img_desc"
+        app:layout_constraintBottom_toTopOf="@+id/mid_divider_classifier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/pre_classifier_default_dog_img" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/mid_divider_classifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/breeds_list_classifier"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mid_divider_classifier" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,14 @@ public class Breed {
     // The default info message that will appear when loading information failed:
     private static final String DEFAULT_INFO = "Loading...";
 
+    // The Wikipedia search is made of two parts: Searching for most relevant pages and extracting
+    // them. Therefor there are two links, one for searching and one for extracting:
+
+    // Replace "{breed}" with the desired god breed to search:
+    private static final String WIKI_SEARCH_URL = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch={breed}";
+    // Replace "{numSentences}" and "{pageId}":
+    private static final String WIKI_EXTRACT_URL = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exsentences={numSentences}&explaintext=true&pageids={pageId}";
+
     public Breed(Resources res, String name, double confidence) {
         this.name = name;
         this.confidence = confidence;

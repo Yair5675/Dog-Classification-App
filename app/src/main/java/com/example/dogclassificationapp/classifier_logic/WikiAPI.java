@@ -1,5 +1,8 @@
 package com.example.dogclassificationapp.classifier_logic;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Optional;
 
 /**
@@ -42,5 +45,22 @@ public class WikiAPI {
      */
     private static String getFormattedSearchUrl(String formattedBreed) {
         return WIKI_SEARCH_URL.replace("{breed}", formattedBreed);
+    }
+
+    /**
+     * Sends a get request to the Wikipedia URL and returns the response.
+     * @param formattedSearchUrl The search URL after being modified to search for the wanted breed.
+     * @return If the response from the Wikipedia API was successfully received, it is returned. If not, an empty
+     *         optional will be returned.
+     */
+    private static Optional<HttpURLConnection> getSearchResponse(String formattedSearchUrl) {
+        try {
+            final HttpURLConnection searchConnection = (HttpURLConnection) new URL(formattedSearchUrl).openConnection();
+            searchConnection.setRequestMethod("GET");
+            return Optional.of(searchConnection);
+        }
+        catch (IOException e) {
+            return Optional.empty();
+        }
     }
 }

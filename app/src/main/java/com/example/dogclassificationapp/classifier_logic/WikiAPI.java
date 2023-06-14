@@ -34,4 +34,13 @@ public class WikiAPI {
     private static String formatBreedName(String breed) {
         return breed.replace(' ', '_') + "_(dog)";
     }
+
+    /**
+     * Modifies the search URL to search for the given breed.
+     * @param formattedBreed The breed name after being modified to better suit the search link.
+     * @return A modified version of the search URL to search for the given breed.
+     */
+    private static String getFormattedSearchUrl(String formattedBreed) {
+        return WIKI_SEARCH_URL.replace("{breed}", formattedBreed);
+    }
 }

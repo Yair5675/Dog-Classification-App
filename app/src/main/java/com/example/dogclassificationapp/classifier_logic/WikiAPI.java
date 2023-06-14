@@ -20,6 +20,10 @@ public class WikiAPI {
     // Replace "{numSentences}" and "{pageId}":
     private static final String WIKI_EXTRACT_URL = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exsentences={numSentences}&explaintext=true&pageids={pageId}";
 
+
+    // The maximum amount of sentences that will be returned from the getInfo function:
+    private static final int MAX_SENTENCES = 7;
+
     /**
      * The main function of the class, returns information from Wikipedia about the given breed.
      * @param breed The name of the dog breed that will be searched.

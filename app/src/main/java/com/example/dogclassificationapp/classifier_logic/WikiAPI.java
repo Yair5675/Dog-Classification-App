@@ -91,4 +91,38 @@ public class WikiAPI {
             return Optional.empty();
         }
     }
+
+    /**
+     * Extracts the page ID of the first page in the given Wikipedia response.
+     * @param responseString A string version of the Wikipedia response.
+     * @return If the response contains a page ID, the function will return it. If not, an empty Optional will be
+     *         returned.
+     */
+    private static Optional<Integer> getPageIDFromResponse(String responseString) {
+        // Creating the tags that will identify the page ID:
+        final String startTag = "\"pageid\":";
+        final String endTag = ",";
+
+        // Searching for the page ID:
+        if (responseString.contains(startTag) && responseString.contains(endTag)){
+            // Extracting the page ID:
+            final int startIdx = responseString.indexOf(startTag) + startTag.length();
+            final int endIdx = startIdx + responseString.substring(startIdx).indexOf(endTag);
+
+            final String pageIDStr = responseString.substring(startIdx, endIdx);
+
+            // Making sure the page ID is a number:
+            try {
+                final int pageID = Integer.parseInt(pageIDStr);
+                return Optional.of(pageID);
+            }
+            catch (NumberFormatException e) {
+                return Optional.empty();
+            }
+        }
+        // If the response doesn't contain a page ID, return an empty Optional:
+        else {
+            return Optional.empty();
+        }
+    }
 }

@@ -25,4 +25,13 @@ public class WikiAPI {
         // TODO: Complete the getInfo function based on the documentation
         return Optional.empty();
     }
+
+    /**
+     * Changes the given breed name to better suit the search.
+     * @param breed The raw breed name.
+     * @return A formatted version of the raw breed name that better suits the search later on.
+     */
+    private static String formatBreedName(String breed) {
+        return breed.replace(' ', '_') + "_(dog)";
+    }
 }

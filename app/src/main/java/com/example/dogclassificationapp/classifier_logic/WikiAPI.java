@@ -1,6 +1,8 @@
 package com.example.dogclassificationapp.classifier_logic;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Optional;
@@ -58,6 +60,32 @@ public class WikiAPI {
             final HttpURLConnection searchConnection = (HttpURLConnection) new URL(formattedSearchUrl).openConnection();
             searchConnection.setRequestMethod("GET");
             return Optional.of(searchConnection);
+        }
+        catch (IOException e) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Reads the HTTP response and converts it to String.
+     * @param response An HTTP response that will be read.
+     * @return If no error occurs, the function returns the given response's content in String format. If an error
+     *         occurred, an empty Optional is returned.
+     */
+    private static Optional<String> convertResponseToString(HttpURLConnection response) {
+        try {
+            // Making variables to read the response:
+            StringBuilder contentBuilder = new StringBuilder();
+            BufferedReader contentReader = new BufferedReader(new InputStreamReader(response.getInputStream()));
+            String line;
+
+            // Going over the lines in the response:
+            while ((line = contentReader.readLine()) != null)
+                contentBuilder.append(line);
+            contentReader.close();
+
+            // Returning the content:
+            return Optional.of(contentBuilder.toString());
         }
         catch (IOException e) {
             return Optional.empty();

@@ -55,13 +55,13 @@ public class WikiAPI {
 
     /**
      * Sends a get request to the Wikipedia URL and returns the response.
-     * @param formattedSearchUrl The search URL after being modified to search for the wanted breed.
+     * @param url The URL to the API which will return a response.
      * @return If the response from the Wikipedia API was successfully received, it is returned. If not, an empty
      *         optional will be returned.
      */
-    private static Optional<HttpURLConnection> getSearchResponse(String formattedSearchUrl) {
+    private static Optional<HttpURLConnection> sendGetRequest(String url) {
         try {
-            final HttpURLConnection searchConnection = (HttpURLConnection) new URL(formattedSearchUrl).openConnection();
+            final HttpURLConnection searchConnection = (HttpURLConnection) new URL(url).openConnection();
             searchConnection.setRequestMethod("GET");
             return Optional.of(searchConnection);
         }

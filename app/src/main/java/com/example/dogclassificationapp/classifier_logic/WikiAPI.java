@@ -185,4 +185,44 @@ public class WikiAPI {
         else
             return responseInfo;
     }
+
+    /**
+     * Finds every unicode code (i.e: "\\u00f10"), and converts it to the actual unicode value.
+     * @param input A string that may or may not contain codes for unicode characters.
+     * @return A modified version of the string where every unicode code is converted to a unicode character.
+     */
+    private static String convertUnicode(String input) {
+        // Creating a variable to store the parts we moved over:
+        StringBuilder builder = new StringBuilder();
+
+        // Looping over the input:
+        int length = input.length();
+        for (int i = 0; i < length; i++) {
+            char c = input.charAt(i);
+            // Checking if the current value is a unicode value:
+            if (c == '\\' && i + 1 < length && input.charAt(i + 1) == 'u') {
+                if (i + 5 < length) {
+                    String unicodeHex = input.substring(i + 2, i + 6);
+                    // Trying to convert the unicode code to a unicode char:
+                    try {
+                        int unicodeValue = Integer.parseInt(unicodeHex, 16);
+                        builder.append((char) unicodeValue);
+                        i += 5; // Skip the Unicode escape sequence
+                    } catch (NumberFormatException e) {
+                        // Invalid Unicode escape sequence, skip it:
+                        builder.append(c);
+                    }
+                }
+                // Invalid Unicode escape sequence, append as is:
+                else {
+                    builder.append(c);
+                }
+            }
+            // Normal char, add to the builder:
+            else {
+                builder.append(c);
+            }
+        }
+        return builder.toString();
+    }
 }

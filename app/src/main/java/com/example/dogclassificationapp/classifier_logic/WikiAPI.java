@@ -56,8 +56,8 @@ public class WikiAPI {
     /**
      * Sends a get request to the Wikipedia URL and returns the response.
      * @param url The URL to the API which will return a response.
-     * @return If the response from the Wikipedia API was successfully received, it is returned. If not, an empty
-     *         optional will be returned.
+     * @return If the response from the Wikipedia API was successfully received, it is returned.
+     *         If not, an empty optional will be returned.
      */
     private static Optional<HttpURLConnection> sendGetRequest(String url) {
         try {
@@ -73,8 +73,8 @@ public class WikiAPI {
     /**
      * Reads the HTTP response and converts it to String.
      * @param response An HTTP response that will be read.
-     * @return If no error occurs, the function returns the given response's content in String format. If an error
-     *         occurred, an empty Optional is returned.
+     * @return If no error occurs, the function returns the given response's content in String
+     *         format. If an error occurred, an empty Optional is returned.
      */
     private static Optional<String> convertResponseToString(HttpURLConnection response) {
         try {
@@ -99,8 +99,8 @@ public class WikiAPI {
     /**
      * Extracts the page ID of the first page in the given Wikipedia response.
      * @param responseString A string version of the Wikipedia response.
-     * @return If the response contains a page ID, the function will return it. If not, an empty Optional will be
-     *         returned.
+     * @return If the response contains a page ID, the function will return it. If not, an empty
+     *         Optional will be returned.
      */
     private static Optional<Integer> getPageIDFromResponse(String responseString) {
         // Creating the tags that will identify the page ID:
@@ -133,7 +133,8 @@ public class WikiAPI {
     /**
      * Modifies the extract URL to get the specific page with the given page-ID.
      * @param pageID The ID of the page that will be looked for.
-     * @return A modified version of the extract URL to get the specific page with the given page-ID.
+     * @return A modified version of the extract URL to get the specific page with the given
+     *         page-ID.
      */
     private static String getFormattedExtractURL(int pageID) {
         return WIKI_EXTRACT_URL
@@ -172,8 +173,8 @@ public class WikiAPI {
     }
 
     /**
-     * Given the response's string, this function returns the part in the Wikipedia page before the first title. Only
-     * the summary on the dog breed is returned.
+     * Given the response's string, this function returns the part in the Wikipedia page before the
+     * first title. Only the summary on the dog breed is returned.
      * @param responseInfo The response from Wikipedia in string format.
      * @return The information on the dog only until the first title.
      */

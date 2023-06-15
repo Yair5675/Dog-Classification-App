@@ -129,4 +129,18 @@ public class WikiAPI {
             return Optional.empty();
         }
     }
+
+    /**
+     * Modifies the extract URL to get the specific page with the given page-ID.
+     * @param pageID The ID of the page that will be looked for.
+     * @return A modified version of the extract URL to get the specific page with the given page-ID.
+     */
+    private static String getFormattedExtractURL(int pageID) {
+        return WIKI_EXTRACT_URL
+                .replace(
+                        "{numSentences}", Integer.toString(MAX_SENTENCES)
+                ).replace(
+                        "{pageId}", Integer.toString(pageID)
+                );
+    }
 }

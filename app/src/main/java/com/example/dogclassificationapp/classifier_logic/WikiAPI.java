@@ -143,4 +143,18 @@ public class WikiAPI {
                         "{pageId}", Integer.toString(pageID)
                 );
     }
+
+    /**
+     * Given the response's string, this function returns the part in the Wikipedia page before the first title. Only
+     * the summary on the dog breed is returned.
+     * @param responseInfo The response from Wikipedia in string format.
+     * @return The information on the dog only until the first title.
+     */
+    private static String getInfoUntilTitle(String responseInfo) {
+        final int endIdx = responseInfo.indexOf("\\n");
+        if (endIdx >= 0)
+            return responseInfo.substring(0, endIdx);
+        else
+            return responseInfo;
+    }
 }

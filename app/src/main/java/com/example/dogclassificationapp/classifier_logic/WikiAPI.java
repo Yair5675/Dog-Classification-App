@@ -201,7 +201,7 @@ public class WikiAPI {
         // Making sure both tags are present in the response:
         if (responseString.contains(startTag) && responseString.contains(endTag)) {
             // Getting the start and end indices:
-            final int startIdx = responseString.indexOf(startTag);
+            final int startIdx = responseString.indexOf(startTag) + startTag.length();
             final int endIdx = startIdx + responseString.substring(startIdx).indexOf(endTag);
 
             // Returning the information:

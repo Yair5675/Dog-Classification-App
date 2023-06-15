@@ -145,6 +145,33 @@ public class WikiAPI {
     }
 
     /**
+     * Receives the response in a string format and returns only the information about the dog breed
+     * in the response.
+     * @param responseString The response of the extract request in a string format.
+     * @return If there is information about the dog breed, it returns it. If not, an empty optional
+     *         is returned.
+     */
+    private static Optional<String> getInfoFromExtractResponse(String responseString) {
+        // Creating tags that will identify the information part in the response:
+        final String startTag = "\"extract\":\"";
+        final String endTag = "\"}";
+
+        // Making sure both tags are present in the response:
+        if (responseString.contains(startTag) && responseString.contains(endTag)) {
+            // Getting the start and end indices:
+            final int startIdx = responseString.indexOf(startTag);
+            final int endIdx = startIdx + responseString.substring(startIdx).indexOf(endTag);
+
+            // Returning the information:
+            return Optional.of(responseString.substring(startIdx, endIdx));
+        }
+        // If they aren't present, return an empty optional:
+        else {
+            return Optional.empty();
+        }
+    }
+
+    /**
      * Given the response's string, this function returns the part in the Wikipedia page before the first title. Only
      * the summary on the dog breed is returned.
      * @param responseInfo The response from Wikipedia in string format.

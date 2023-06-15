@@ -31,7 +31,48 @@ public class WikiAPI {
      *         an empty optional is returned.
      */
     public static Optional<String> getInfo(String breed) {
-        // TODO: Complete the getInfo function based on the documentation
+        // Formatting the breed name to match the URL:
+        final String formattedBreed = formatBreedName(breed);
+
+        // Getting a search response from the API:
+        final Optional<HttpURLConnection> searchResponseOpt = sendGetRequest(getFormattedSearchUrl(formattedBreed));
+
+        // Checking that the response was a success:
+        if (searchResponseOpt.isPresent()) {
+            // Getting the content:
+            final Optional<String> searchContentOpt = convertResponseToString(searchResponseOpt.get());
+
+            // Making sure reading the response was successful:
+            if (searchContentOpt.isPresent()) {
+                // Getting the ID of the first Wikipedia page:
+                final Optional<Integer> pageIdOpt = getPageIDFromResponse(searchContentOpt.get());
+
+                // Making sure the page ID was found:
+                if (pageIdOpt.isPresent()) {
+                    // Sending a get request to extract info from the specific page:
+                    final Optional<HttpURLConnection> extractResponseOpt = sendGetRequest(getFormattedExtractURL(pageIdOpt.get()));
+
+                    // Making sure the response was a success:
+                    if (extractResponseOpt.isPresent()) {
+                        // Getting the content of the response:
+                        final Optional<String> extractContentOpt = convertResponseToString(extractResponseOpt.get());
+
+                        // Making sure reading the response was successful:
+                        if (extractContentOpt.isPresent()) {
+                            // Extracting the info:
+                            final Optional<String> info = getInfoFromExtractResponse(extractContentOpt.get());
+
+                            // Making sure the information was successfully gathered:
+                            if (info.isPresent()) {
+                                return Optional.of(convertUnicode(getInfoUntilTitle(info.get())));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // If the code reached here, something went wrong and nothing will be returned.
         return Optional.empty();
     }
 

@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.dogclassificationapp.R;
+import com.example.dogclassificationapp.api_handlers.WikiAPI;
 
 import java.util.Optional;
 

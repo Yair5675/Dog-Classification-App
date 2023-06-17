@@ -1,4 +1,4 @@
-package com.example.dogclassificationapp.classifier_logic;
+package com.example.dogclassificationapp.api_handlers;
 
 import java.io.BufferedReader;
 import java.io.IOException;

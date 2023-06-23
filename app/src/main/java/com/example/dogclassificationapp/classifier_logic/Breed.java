@@ -41,6 +41,9 @@ public class Breed {
     private Drawable mainImg;
     private Drawable bonusImg;
 
+    // Whether or not the current breed is expanded inside a recyclerView:
+    private boolean expanding;
+
     // The default info message that will appear when loading information failed:
     private static final String DEFAULT_INFO = "Loading...";
 
@@ -52,6 +55,9 @@ public class Breed {
 
         // Setting confidence:
         this.confidence = confidence;
+
+        // Upon creation the breed object did not expand:
+        this.expanding = false;
 
         // Loading information from Wikipedia:
         final Optional<String> wikiInfo = WikiAPI.getInfo(this.getFullName());
@@ -168,5 +174,13 @@ public class Breed {
 
     public Drawable getBonusImg() {
         return bonusImg;
+    }
+
+    public boolean isExpanding() {
+        return expanding;
+    }
+
+    public void setExpanding(boolean expanding) {
+        this.expanding = expanding;
     }
 }

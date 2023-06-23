@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * A utility class to retrieve images of specific dog breeds from the dog API.
  */
-public class DogImagesAPI {
+public class DogImagesAPI extends API {
 
     // The endpoint to receive images of dogs by breeds and sub-breeds. The arguments that should
     // be replaced are: "{breed}", "{sub_breed}", "{num_images}":

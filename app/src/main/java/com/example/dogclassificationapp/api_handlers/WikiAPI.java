@@ -9,7 +9,7 @@ import java.util.Optional;
 /**
  * A utility class for retrieving information from the Wikipedia API.
  */
-public class WikiAPI {
+public class WikiAPI extends API {
 
     // The Wikipedia search is made of two parts: Searching for most relevant pages and extracting
     // them. Therefor there are two links, one for searching and one for extracting:
@@ -34,7 +34,7 @@ public class WikiAPI {
         final String formattedBreed = formatBreedName(breed);
 
         // Getting a search response from the API:
-        final Optional<HttpURLConnection> searchResponseOpt = API.sendGetRequest(getFormattedSearchUrl(formattedBreed));
+        final Optional<HttpURLConnection> searchResponseOpt = sendGetRequest(getFormattedSearchUrl(formattedBreed));
 
         // Checking that the response was a success:
         if (searchResponseOpt.isPresent()) {
@@ -49,7 +49,7 @@ public class WikiAPI {
                 // Making sure the page ID was found:
                 if (pageIdOpt.isPresent()) {
                     // Sending a get request to extract info from the specific page:
-                    final Optional<HttpURLConnection> extractResponseOpt = API.sendGetRequest(getFormattedExtractURL(pageIdOpt.get()));
+                    final Optional<HttpURLConnection> extractResponseOpt = sendGetRequest(getFormattedExtractURL(pageIdOpt.get()));
 
                     // Making sure the response was a success:
                     if (extractResponseOpt.isPresent()) {

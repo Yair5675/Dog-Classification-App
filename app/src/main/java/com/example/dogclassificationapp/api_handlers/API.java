@@ -13,7 +13,7 @@ public abstract class API {
      * @return If the response from the API was successfully received, it is returned. If not, an
      *         empty optional will be returned.
      */
-    public static Optional<HttpURLConnection> sendGetRequest(String url) {
+    protected static Optional<HttpURLConnection> sendGetRequest(String url) {
         try {
             final HttpURLConnection searchConnection = (HttpURLConnection) new URL(url).openConnection();
             searchConnection.setRequestMethod("GET");

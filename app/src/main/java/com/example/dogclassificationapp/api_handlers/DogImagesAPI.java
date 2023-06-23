@@ -21,4 +21,20 @@ public class DogImagesAPI extends API {
         // TODO: Complete function per documentation.
         return null;
     }
+
+    /**
+     * Returns a formatted version of the dog images URL that returns random images of the given
+     * sub-breed.
+     * @param breed The main breed of the dog (example: "Afghan hound", "hound" is the breed).
+     * @param subBreed The sub-breed of the dog (example: "Afghan hound", "Afghan is the sub-breed).
+     * @param numImages The number of images of the sub-breed that should be returned.
+     * @return A URL for the endpoint of the dog API that gives the specified dog breed.
+     */
+    private static String getFormattedImagesEndpoint(String breed, String subBreed, int numImages) {
+        return DOG_IMAGES_ENDPOINT
+                .replace("{breed}", breed)
+                .replace("sub_breed", subBreed)
+                .replace("{num_images}", Integer.toString(numImages))
+                ;
+    }
 }

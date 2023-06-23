@@ -1,5 +1,6 @@
 package com.example.dogclassificationapp.api_handlers;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -22,9 +23,37 @@ public class DogImagesAPI extends API {
      * @param numImages The amount of images that will be returned
      * @return A list of image URLs from the dog API.
      */
-    public static ArrayList<String> getImagesURLs(String breed, String subBreed, int numImages) {
-        // TODO: Complete function per documentation.
-        return null;
+    public static Optional<ArrayList<String>> getImagesURLs(String breed, String subBreed, int numImages) {
+        // Getting the URL for the appropriate endpoint for the specified breed:
+        final String FORMATTED_URL = getFormattedImagesEndpoint(breed, subBreed, numImages);
+
+        // Getting the HTTP response:
+        final Optional<HttpURLConnection> responseOpt = sendGetRequest(FORMATTED_URL);
+        // If the GET request failed:
+        if (!responseOpt.isPresent())
+            return Optional.empty();
+
+        // Unwrapping and reading the response:
+        final HttpURLConnection response = responseOpt.get();
+        final Optional<String> contentOpt = convertResponseToString(response);
+
+        // If reading the content failed:
+        if (!contentOpt.isPresent())
+            return Optional.empty();
+
+        // Unwrapping the response's content:
+        final String content = contentOpt.get();
+
+        // Getting the URls:
+        final Optional<ArrayList<String>> urlsOpt = getURLsFromResponse(content);
+
+        // If extracting the URLs failed:
+        if (!urlsOpt.isPresent())
+            return Optional.empty();
+
+        // Unwrapping the URLs:
+        final ArrayList<String> urls = urlsOpt.get();
+        return Optional.of(urls);
     }
 
     /**

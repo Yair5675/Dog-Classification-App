@@ -1,13 +1,21 @@
 package com.example.dogclassificationapp.classifier_logic;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.dogclassificationapp.R;
 import com.example.dogclassificationapp.api_handlers.WikiAPI;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Optional;
 
 /**
@@ -61,6 +69,32 @@ public class Breed {
     private boolean loadMainAndBonusImages(String breed) {
         // TODO: Complete the loadMainAndBonusImages function per documentation
         return false;
+    }
+
+    /**
+     * Returns a Drawable object from the URL of an image.
+     * @param imageUrl The URL of the image that will be turned into a drawable.
+     * @return If the operation was successful the drawable is returned. Otherwise, an empty
+     *         optional is returned.
+     */
+    private static Optional<Drawable> getDrawableFromURL(String imageUrl) {
+        try {
+            // Loading the bitmap through the URL:
+            HttpURLConnection connection = (HttpURLConnection) new URL(imageUrl).openConnection();
+            connection.connect();
+            InputStream input = connection.getInputStream();
+
+            Bitmap imageBitmap = BitmapFactory.decodeStream(input);
+
+            // Converting the bitmap to drawable:
+            Drawable imgDrawable = new BitmapDrawable(Resources.getSystem(), imageBitmap);
+
+            return Optional.of(imgDrawable);
+
+        } catch (IOException e) {
+            Log.e("Breed.java", "Failed loading drawable from URL: \"" + imageUrl + "\"");
+            return Optional.empty();
+        }
     }
 
     public String getBreedName() {

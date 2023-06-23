@@ -66,6 +66,8 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
 
         // Setting the information paragraph's image:
         holder.infoTv.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, breed.getBonusImg(), null);
+
+        // Changing the visibility of the expandable part according to the
     }
 
     @Override
@@ -117,8 +119,18 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
             // Setting an OnClickListener for the main layout:
             this.mainLayout.setOnClickListener(
                     view -> {
-                        // Negating the "expandable" attribute of the pressed breed:
+                        // Getting the index of the pressed breed:
                         final int pressedIdx = getAdapterPosition();
+
+                        // Closing any other breeds that are expanding:
+                        for (int i = 0; i < breedsList.size(); i++) {
+                            if (i != pressedIdx) {
+                                breedsList.get(i).setExpanding(false);
+                                notifyItemChanged(i);
+                            }
+                        }
+
+                        // Negating the "expandable" attribute of the pressed breed:
                         final Breed pressedBreed = breedsList.get(pressedIdx);
                         pressedBreed.setExpanding(!pressedBreed.isExpanding());
 

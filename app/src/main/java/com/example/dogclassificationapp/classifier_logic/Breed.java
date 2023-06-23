@@ -24,7 +24,10 @@ import java.util.Optional;
  */
 public class Breed {
     // The name of the breed:
-    private final String name;
+    private final String breed;
+
+    // The name of the sub-breed:
+    private final String subBreed;
 
     // The confidence of the model that the dog image is this breed:
     private final double confidence;
@@ -40,11 +43,16 @@ public class Breed {
     private static final String DEFAULT_INFO = "Loading...";
 
     public Breed(Resources res, String name, double confidence) {
-        this.name = name;
+        // Getting the breed and sub-breed:
+        final String[] breeds = getBreedAndSubBreed(name);
+        this.breed = breeds[0];
+        this.subBreed = breeds[1];
+
+        // Setting confidence:
         this.confidence = confidence;
 
         // Loading information from Wikipedia:
-        final Optional<String> wikiInfo = WikiAPI.getInfo(this.name);
+        final Optional<String> wikiInfo = WikiAPI.getInfo(this.getFullName());
         // If the Wikipedia info was received, set it as the info. If not, set default info:
         this.info = wikiInfo.orElse(DEFAULT_INFO);
 
@@ -56,6 +64,26 @@ public class Breed {
             this.bonusImg = ResourcesCompat.getDrawable(res, R.drawable.classifier_default_dog, null);
         }
 
+    }
+
+    /**
+     * Given the full dog name, the function separates and extracts the main breed and sub-breed.
+     * @param fullName The full name of the dog breed (example: "Japanese Spaniel").
+     * @return An array whose first index is the main breed and second index is sub-breed. If the
+     *         full name contains only one word, sub-breed will be an empty string.
+     */
+    private static String[] getBreedAndSubBreed(String fullName) {
+        // Splitting the full name to words:
+        String[] words = fullName.split(" ");
+
+        // First word is sub-breed, last word is main breed:
+        String[] breeds = {words[words.length - 1], ""};
+
+        // If there exists a sub-breed:
+        if (words.length > 1)
+            breeds[1] = words[0];
+
+        return breeds;
     }
 
     /**
@@ -97,8 +125,16 @@ public class Breed {
         }
     }
 
-    public String getBreedName() {
-        return name;
+    public String getBreed() {
+        return breed;
+    }
+
+    public String getSubBreed() {
+        return subBreed;
+    }
+
+    public String getFullName() {
+        return String.format("%s %s", this.subBreed, this.breed);
     }
 
     public double getConfidence() {

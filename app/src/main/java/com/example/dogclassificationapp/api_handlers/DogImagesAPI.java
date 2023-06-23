@@ -14,10 +14,12 @@ public class DogImagesAPI extends API {
     /**
      * Returns a list of image URLs from the dog API. The length of the list is the amount of images
      * that was given as a parameter.
+     * @param breed The main breed of the dog (example: "Afghan hound", "hound" is the breed).
+     * @param subBreed The sub-breed of the dog (example: "Afghan hound", "Afghan is the sub-breed).
      * @param numImages The amount of images that will be returned
      * @return A list of image URLs from the dog API.
      */
-    public static ArrayList<String> getImagesURLs(int numImages) {
+    public static ArrayList<String> getImagesURLs(String breed, String subBreed, int numImages) {
         // TODO: Complete function per documentation.
         return null;
     }

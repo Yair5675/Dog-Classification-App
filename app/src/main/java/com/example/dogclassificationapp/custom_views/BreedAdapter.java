@@ -73,7 +73,7 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
         return this.breedsList.size();
     }
 
-    public static class BreedVH extends RecyclerView.ViewHolder {
+    public class BreedVH extends RecyclerView.ViewHolder {
 
         // The actual information paragraph (with a bonus image at the end):
         private final TextView infoTv;
@@ -113,6 +113,19 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
 
             // Loading the main layout:
             this.mainLayout = itemView.findViewById(R.id.breed_main_layout);
+
+            // Setting an OnClickListener for the main layout:
+            this.mainLayout.setOnClickListener(
+                    view -> {
+                        // Negating the "expandable" attribute of the pressed breed:
+                        final int pressedIdx = getAdapterPosition();
+                        final Breed pressedBreed = breedsList.get(pressedIdx);
+                        pressedBreed.setExpanding(!pressedBreed.isExpanding());
+
+                        // Notifying an item has changed:
+                        notifyItemChanged(pressedIdx);
+                    }
+            );
         }
     }
 }

@@ -10,12 +10,14 @@ import android.util.Log;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.example.dogclassificationapp.R;
+import com.example.dogclassificationapp.api_handlers.DogImagesAPI;
 import com.example.dogclassificationapp.api_handlers.WikiAPI;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -57,7 +59,7 @@ public class Breed {
         this.info = wikiInfo.orElse(DEFAULT_INFO);
 
         // Loading two random images of the current breed:
-        final boolean imgSuccessful = this.loadMainAndBonusImages(name);
+        final boolean imgSuccessful = this.loadMainAndBonusImages();
         // If the images weren't set successfully:
         if (!imgSuccessful) {
             this.mainImg = ResourcesCompat.getDrawable(res, R.drawable.classifier_default_dog, null);
@@ -91,12 +93,35 @@ public class Breed {
      * The function then sets the first image as the "mainImg" attribute and the second as the
      * "bonusImg" attribute. If the HTTP response is some sort of error the two image attributes
      * will not be set.
-     * @param breed The name of the dog breed that will be in the images.
      * @return True if the two image attributes were set successfully, False otherwise.
      */
-    private boolean loadMainAndBonusImages(String breed) {
-        // TODO: Complete the loadMainAndBonusImages function per documentation
-        return false;
+    private boolean loadMainAndBonusImages() {
+        // Loading the images' urls from the API:
+        final Optional<ArrayList<String>> urlsOpt = DogImagesAPI.getImagesURLs(this.breed, this.subBreed, 2);
+        // If the API failed:
+        if (!urlsOpt.isPresent())
+            return false;
+
+        // Unwrapping the links:
+        final ArrayList<String> urls = urlsOpt.get();
+
+        // Making sure the length of the URLs is 2:
+        if (urls.size() != 2)
+            return false;
+
+        // Loading the main image:
+        final Optional<Drawable> mainImgOpt = getDrawableFromURL(urls.get(0));
+        final Optional<Drawable> bonusImgOpt = getDrawableFromURL(urls.get(1));
+
+        // Making sure the conversion to drawable was successful:
+        if (!mainImgOpt.isPresent() || !bonusImgOpt.isPresent())
+            return false;
+
+        // Loading the images:
+        this.mainImg = mainImgOpt.get();
+        this.bonusImg = bonusImgOpt.get();
+
+        return true;
     }
 
     /**

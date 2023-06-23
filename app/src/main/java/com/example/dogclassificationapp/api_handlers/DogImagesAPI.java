@@ -1,5 +1,7 @@
 package com.example.dogclassificationapp.api_handlers;
 
+import android.util.Log;
+
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -30,16 +32,20 @@ public class DogImagesAPI extends API {
         // Getting the HTTP response:
         final Optional<HttpURLConnection> responseOpt = sendGetRequest(FORMATTED_URL);
         // If the GET request failed:
-        if (!responseOpt.isPresent())
+        if (!responseOpt.isPresent()) {
+            Log.e("Dog Images error", "Get request failed");
             return Optional.empty();
+        }
 
         // Unwrapping and reading the response:
         final HttpURLConnection response = responseOpt.get();
         final Optional<String> contentOpt = convertResponseToString(response);
 
         // If reading the content failed:
-        if (!contentOpt.isPresent())
+        if (!contentOpt.isPresent()) {
+            Log.e("Dog Images error", "Reading content from response failed");
             return Optional.empty();
+        }
 
         // Unwrapping the response's content:
         final String content = contentOpt.get();
@@ -48,8 +54,10 @@ public class DogImagesAPI extends API {
         final Optional<ArrayList<String>> urlsOpt = getURLsFromResponse(content);
 
         // If extracting the URLs failed:
-        if (!urlsOpt.isPresent())
+        if (!urlsOpt.isPresent()) {
+            Log.e("Dog Images error", "Extracting urls from content failed");
             return Optional.empty();
+        }
 
         // Unwrapping the URLs:
         final ArrayList<String> urls = urlsOpt.get();

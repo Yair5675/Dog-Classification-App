@@ -43,7 +43,7 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return this.breedsList.size();
     }
 
     public static class BreedVH extends RecyclerView.ViewHolder {

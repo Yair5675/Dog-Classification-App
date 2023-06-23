@@ -38,7 +38,34 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
 
     @Override
     public void onBindViewHolder(@NonNull BreedVH holder, int position) {
+        // Getting the breed that is currently being bind to the VH:
+        final Breed breed = this.breedsList.get(position);
 
+        // Setting the View-Holder's attributes using the data of the breed:
+
+        // Setting the breed name:
+        final String breedName = "Breed: " + breed.getFullName();
+        holder.breedTV.setText(breedName);
+
+        // Setting the confidence of the model in the breed:
+        double confidence = 100 * breed.getConfidence();
+        // Rounding to the second digit:
+        confidence = Math.round(100 * confidence) / 100.0;
+
+        final String confidenceTxt = "Confidence: " + confidence;
+        holder.confidenceTV.setText(confidenceTxt);
+
+        // Setting the shown image:
+        holder.shownBreedImgV.setImageDrawable(breed.getMainImg());
+
+        // Setting the information title:
+        holder.infoTitleTV.setText(breed.getFullName());
+
+        // Setting the information paragraph's text:
+        holder.infoTv.setText(breed.getInfo());
+
+        // Setting the information paragraph's image:
+        holder.infoTv.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, breed.getBonusImg(), null);
     }
 
     @Override

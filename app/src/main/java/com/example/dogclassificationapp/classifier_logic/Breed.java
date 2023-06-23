@@ -150,14 +150,6 @@ public class Breed {
         }
     }
 
-    public String getBreed() {
-        return breed;
-    }
-
-    public String getSubBreed() {
-        return subBreed;
-    }
-
     public String getFullName() {
         return String.format("%s %s", this.subBreed, this.breed);
     }

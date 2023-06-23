@@ -1,5 +1,6 @@
 package com.example.dogclassificationapp.custom_views;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,7 +30,10 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
     @NonNull
     @Override
     public BreedVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        // Getting the breed_row file as a view:
+        final View rowView = LayoutInflater.from(parent.getContext()).inflate(R.layout.breed_row, parent, false);
+        // Using the custom View-Holder:
+        return new BreedVH(rowView);
     }
 
     @Override

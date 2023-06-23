@@ -18,6 +18,10 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
     // A list containing all the breeds in the adapter:
     private ArrayList<Breed> breedsList;
 
+    public BreedAdapter(ArrayList<Breed> breedsList) {
+        this.breedsList = breedsList;
+    }
+
     @NonNull
     @Override
     public BreedVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

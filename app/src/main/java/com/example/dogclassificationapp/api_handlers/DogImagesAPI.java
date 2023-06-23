@@ -75,7 +75,7 @@ public class DogImagesAPI extends API {
     private static String getFormattedImagesEndpoint(String breed, String subBreed, int numImages) {
         return DOG_IMAGES_ENDPOINT
                 .replace("{breed}", breed)
-                .replace("sub_breed", subBreed)
+                .replace("{sub_breed}", subBreed)
                 .replace("{num_images}", Integer.toString(numImages))
                 ;
     }

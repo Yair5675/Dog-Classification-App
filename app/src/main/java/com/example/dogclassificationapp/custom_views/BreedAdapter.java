@@ -67,7 +67,11 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
         // Setting the information paragraph's image:
         holder.infoTv.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, breed.getBonusImg(), null);
 
-        // Changing the visibility of the expandable part according to the
+        // Changing the visibility of the expandable part according to the "expandable" attribute
+        // of the current breed:
+        holder.expandableLayout.setVisibility(
+                breed.isExpanding() ? View.VISIBLE : View.GONE
+        );
     }
 
     @Override

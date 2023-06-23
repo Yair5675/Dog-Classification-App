@@ -90,6 +90,9 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
         // The image that will be shown without expanding the breed:
         private final ImageView shownBreedImgV;
 
+        // The main layout of the row (contains all components of the View-Holder):
+        private final ConstraintLayout mainLayout;
+
         // The expandable part of the row:
         private final ConstraintLayout expandableLayout;
 
@@ -107,6 +110,9 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
 
             // Loading the expandable layout:
             this.expandableLayout = itemView.findViewById(R.id.breed_expandable_layout);
+
+            // Loading the main layout:
+            this.mainLayout = itemView.findViewById(R.id.breed_main_layout);
         }
     }
 }

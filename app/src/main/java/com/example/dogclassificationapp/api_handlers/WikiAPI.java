@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Optional;
 
 /**
@@ -35,7 +34,7 @@ public class WikiAPI {
         final String formattedBreed = formatBreedName(breed);
 
         // Getting a search response from the API:
-        final Optional<HttpURLConnection> searchResponseOpt = sendGetRequest(getFormattedSearchUrl(formattedBreed));
+        final Optional<HttpURLConnection> searchResponseOpt = API.sendGetRequest(getFormattedSearchUrl(formattedBreed));
 
         // Checking that the response was a success:
         if (searchResponseOpt.isPresent()) {
@@ -50,7 +49,7 @@ public class WikiAPI {
                 // Making sure the page ID was found:
                 if (pageIdOpt.isPresent()) {
                     // Sending a get request to extract info from the specific page:
-                    final Optional<HttpURLConnection> extractResponseOpt = sendGetRequest(getFormattedExtractURL(pageIdOpt.get()));
+                    final Optional<HttpURLConnection> extractResponseOpt = API.sendGetRequest(getFormattedExtractURL(pageIdOpt.get()));
 
                     // Making sure the response was a success:
                     if (extractResponseOpt.isPresent()) {
@@ -94,22 +93,6 @@ public class WikiAPI {
         return WIKI_SEARCH_URL.replace("{breed}", formattedBreed);
     }
 
-    /**
-     * Sends a get request to the Wikipedia URL and returns the response.
-     * @param url The URL to the API which will return a response.
-     * @return If the response from the Wikipedia API was successfully received, it is returned.
-     *         If not, an empty optional will be returned.
-     */
-    private static Optional<HttpURLConnection> sendGetRequest(String url) {
-        try {
-            final HttpURLConnection searchConnection = (HttpURLConnection) new URL(url).openConnection();
-            searchConnection.setRequestMethod("GET");
-            return Optional.of(searchConnection);
-        }
-        catch (IOException e) {
-            return Optional.empty();
-        }
-    }
 
     /**
      * Reads the HTTP response and converts it to String.

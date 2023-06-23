@@ -2,6 +2,7 @@ package com.example.dogclassificationapp.classifier_logic;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.example.dogclassificationapp.ml.DogModelLite;
@@ -74,6 +75,19 @@ public final class DogClassifier {
         }
 
         return labels;
+    }
+
+    /**
+     * Given an image of a dog, the model will return a list of breeds and sub-breeds of dogs, that
+     * contain the probability that the dog inside the given image is of this breed.
+     * @param dogImage The image with a dog that the model will process. Its dimensions must be
+     *                 256x256 pixels.
+     * @return A list of Breed objects that each contain the probability that the breed of the dog
+     *         in the image is the current breed.
+     */
+    public ArrayList<Breed> getModelPredictions(Drawable dogImage) {
+        // TODO: Complete the function as per documentation
+        return null;
     }
 
     public String getLabel(int index) {

@@ -72,9 +72,11 @@ public class DogImagesAPI extends API {
         final ArrayList<String> urlsList = new ArrayList<>();
 
         // Looping over the string until there are no more links:
+        String url;
         while (matcher.find())
-            // Removing The unnecessary "\" from the links:
-            urlsList.add(matcher.group(1).replace("\\", ""));
+            if ((url = matcher.group(1)) != null)
+                // Removing The unnecessary "\" from the links:
+                urlsList.add(url.replace("\\", ""));
 
         return Optional.of(urlsList);
     }

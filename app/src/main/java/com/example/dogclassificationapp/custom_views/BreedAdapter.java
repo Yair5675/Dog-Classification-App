@@ -6,10 +6,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dogclassificationapp.classifier_logic.Breed;
+
+import java.util.ArrayList;
+
 /**
  * This class's purpose is to bind Breed objects into a recyclerView
  */
 public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
+
+    // A list containing all the breeds in the adapter:
+    private ArrayList<Breed> breedsList;
+
     @NonNull
     @Override
     public BreedVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

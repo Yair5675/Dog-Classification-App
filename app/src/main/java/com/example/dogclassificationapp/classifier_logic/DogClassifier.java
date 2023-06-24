@@ -17,6 +17,9 @@ import java.util.Arrays;
  * A singleton to handle the logical part of processing and classifying images.
  */
 public final class DogClassifier {
+    // The context of the activity that started the model:
+    private final Context context;
+
     // The different types of dogs the classifier can distinguish:
     private final ArrayList<String> labels;
 
@@ -27,6 +30,7 @@ public final class DogClassifier {
     private static final int IMAGE_SIZE = 256;
 
     private DogClassifier(Context context, AssetManager assets) {
+        this.context = context;
         this.labels = DogClassifier.loadLabels(assets);
 
         // Printing the labels to the log:

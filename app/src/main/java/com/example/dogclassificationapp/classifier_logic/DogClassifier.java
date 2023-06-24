@@ -3,7 +3,6 @@ package com.example.dogclassificationapp.classifier_logic;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * A singleton to handle the logical part of processing and classifying images.
+ * A class to handle the logical part of processing and classifying images.
  */
 public final class DogClassifier {
     // The context of the activity that started the model:
@@ -23,24 +22,15 @@ public final class DogClassifier {
     // The different types of dogs the classifier can distinguish:
     private final ArrayList<String> labels;
 
-    // The singleton instance of the class:
-    private static DogClassifier classifier = null;
-
     // The size of the image that will be passed into the model:
     private static final int IMAGE_SIZE = 256;
 
-    private DogClassifier(Context context, AssetManager assets) {
+    public DogClassifier(Context context, AssetManager assets) {
         this.context = context;
         this.labels = DogClassifier.loadLabels(assets);
 
         // Printing the labels to the log:
         Log.i("Labels", this.labels.toString());
-    }
-
-    public static DogClassifier getInstance(Context context, AssetManager assets) {
-        if (classifier == null)
-            classifier = new DogClassifier(context, assets);
-        return classifier;
     }
 
     /**

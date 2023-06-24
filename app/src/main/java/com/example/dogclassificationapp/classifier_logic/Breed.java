@@ -14,7 +14,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * A class that represents the information on a single breed, and includes how confident the model
@@ -58,7 +60,17 @@ public class Breed {
      */
     public Breed(Resources res, String normalBreed, String apiBreed, double confidence) {
         // Getting the breed and sub-breed:
-        final String[] normalBreeds = getBreedAndSubBreed(normalBreed);
+        String[] normalBreeds = getBreedAndSubBreed(normalBreed);
+
+        // Changing the first letter of each word to uppercase:
+        Function<String, String> capitalizeFirstLetter = input -> {
+            if (input == null || input.isEmpty()) {
+                return input;
+            }
+            return input.substring(0, 1).toUpperCase() + input.substring(1);
+        };
+
+        normalBreeds = Arrays.stream(normalBreeds).map(capitalizeFirstLetter).toArray(String[]::new);
 
         // Loading the breed and sub-breed
         this.breed = normalBreeds[0];

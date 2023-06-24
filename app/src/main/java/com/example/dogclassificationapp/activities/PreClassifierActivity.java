@@ -205,8 +205,21 @@ public class PreClassifierActivity extends AppCompatActivity {
      * @param view The confirmation button that was clicked.
      */
     private void onConfirmButtonClick(View view) {
-        // TODO: When the Classifier activity is done, launch it from here.
+        // Sending the image of the dog to the next activity:
+        Intent intent = new Intent();
+        intent.putExtra("dog_image", this.dogImage);
+
+        // Launching the classifier activity:
+        classifierLauncher.launch(intent);
     }
+
+    // The activityResultLauncher that will open up the classifier activity:
+    private final ActivityResultLauncher<Intent> classifierLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+
+            // When the activity is finished, reset the dog image:
+            result -> this.resetDogImage()
+    );
 
     /**
      * Handles the events that are caused by clicking the menu's database button.

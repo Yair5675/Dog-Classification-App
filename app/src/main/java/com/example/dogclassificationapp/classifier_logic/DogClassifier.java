@@ -11,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -77,6 +79,43 @@ public final class DogClassifier {
     public Optional<ArrayList<Breed>> getModelPredictions(Bitmap dogImage) {
         // TODO: Complete the function as per documentation
         return Optional.empty();
+    }
+
+    /**
+     * The function receives a three-dimensional array representing the RGB values of the image, and
+     * loads them into a ByteBuffer to be used as inputs for the TF-Lite model. The function also
+     * normalizes to values (changes them from 0-255 into 0-1).
+     * @param rgbValues A three dimensional array representing the RGB values of an image.
+     * @return A byte buffer loaded with the normalized RGB values.
+     */
+    private static ByteBuffer loadRGBIntoByteBuffer(int[][][] rgbValues) {
+        // Loading the dimensions of the image:
+        final int WIDTH = rgbValues[0].length;
+        final int HEIGHT = rgbValues.length;
+        final int CHANNELS = 3;
+
+        // Creating a ByteBuffer after allocating enough memory:
+        final ByteBuffer byteBuffer = ByteBuffer.allocateDirect(WIDTH * HEIGHT * CHANNELS * 4); // 4 bytes per float
+
+        // Configure byte order for TensorFlow Lite
+        byteBuffer.order(ByteOrder.nativeOrder());
+
+        // Normalize pixel values and store in the ByteBuffer
+        for (int[][] row : rgbValues) {
+            for (int[] pixel : row) {
+                for (int channel : pixel) {
+                    // Extract the RGB component and normalize it:
+                    final float value = channel / 255.0f;
+                    // Add the normalized value to the ByteBuffer:
+                    byteBuffer.putFloat(value);
+                }
+            }
+        }
+
+        // Rewind the ByteBuffer before using it as input
+        byteBuffer.rewind();
+
+        return byteBuffer;
     }
 
     /**

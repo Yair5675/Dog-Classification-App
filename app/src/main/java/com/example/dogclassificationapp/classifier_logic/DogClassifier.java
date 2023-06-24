@@ -22,6 +22,9 @@ public final class DogClassifier {
     // The singleton instance of the class:
     private static DogClassifier classifier = null;
 
+    // The size of the image that will be passed into the model:
+    private static final int IMAGE_SIZE = 256;
+
     private DogClassifier(Context context, AssetManager assets) {
         this.labels = DogClassifier.loadLabels(assets);
 

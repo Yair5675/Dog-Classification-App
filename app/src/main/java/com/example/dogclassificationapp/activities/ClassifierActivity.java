@@ -24,4 +24,13 @@ public class ClassifierActivity extends AppCompatActivity {
         final ImageView mainImg = findViewById(R.id.main_img_classifier);
         mainImg.setImageBitmap(chosenImg);
     }
+
+    /**
+     * Uses the TF-Lite model to classify the given image and load the breeds attribute.
+     * @param chosenImg The image of a dog that the user has chosen, will be classified using the
+     *                  "model" attribute
+     */
+    private void initData(Bitmap chosenImg) {
+        // TODO: Complete the function as per documentation
+    }
 }

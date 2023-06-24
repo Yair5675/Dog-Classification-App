@@ -12,11 +12,9 @@ import android.widget.TextView;
 import com.example.dogclassificationapp.R;
 import com.example.dogclassificationapp.classifier_logic.Breed;
 import com.example.dogclassificationapp.classifier_logic.DogClassifier;
+import com.example.dogclassificationapp.custom_views.BreedAdapter;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class ClassifierActivity extends AppCompatActivity {
 
@@ -27,7 +25,7 @@ public class ClassifierActivity extends AppCompatActivity {
     private DogClassifier classifier;
 
     // The recycler view that will present all the breeds:
-    private RecyclerView breedsListView;
+    private RecyclerView breedsRV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +44,13 @@ public class ClassifierActivity extends AppCompatActivity {
         classifier = new DogClassifier(this, getAssets());
 
         // Loading the recycler-view:
-        breedsListView = findViewById(R.id.breeds_list_classifier);
+        breedsRV = findViewById(R.id.breeds_list_classifier);
 
         // Initializing the data:
         this.initData(chosenImg);
+
+        // Initializing the recycler view:
+        this.setBreedsRecyclerView();
     }
 
     /**
@@ -72,5 +73,14 @@ public class ClassifierActivity extends AppCompatActivity {
             title.setText(titleTxt);
         }
 
+    }
+
+    /**
+     * Initializes the recycler view with the custom BreedAdapter and the "breeds" attribute.
+     */
+    private void setBreedsRecyclerView() {
+        final BreedAdapter adapter = new BreedAdapter(this.breeds);
+        this.breedsRV.setAdapter(adapter);
+        this.breedsRV.setHasFixedSize(true);
     }
 }

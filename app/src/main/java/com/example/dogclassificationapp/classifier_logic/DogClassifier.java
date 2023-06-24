@@ -38,6 +38,7 @@ public final class DogClassifier {
             this.model = DogModelLite.newInstance(context);
 
         } catch (IOException e) {
+            Log.e("Dog Classifier", "Failed to load model");
             e.printStackTrace();
         }
 
@@ -71,6 +72,7 @@ public final class DogClassifier {
 
 
         } catch (IOException e) {
+            Log.e("Dog Classifier", "Failed to load labels");
             e.printStackTrace();
         }
 

@@ -1,5 +1,6 @@
 package com.example.dogclassificationapp.custom_views;
 
+import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
 
     // A list containing all the breeds in the adapter:
-    private ArrayList<Breed> breedsList;
+    private final ArrayList<Breed> breedsList;
 
     public BreedAdapter(ArrayList<Breed> breedsList) {
         this.breedsList = breedsList;
@@ -67,7 +68,7 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
         holder.infoTv.setText(breed.getInfo());
 
         // Setting the information paragraph's image:
-        final Drawable bonusImgDrawable = new BitmapDrawable(breed.getBonusImg());
+        final Drawable bonusImgDrawable = new BitmapDrawable(Resources.getSystem(), breed.getBonusImg());
         holder.infoTv.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, bonusImgDrawable, null);
 
         // Changing the visibility of the expandable part according to the "expandable" attribute
@@ -99,9 +100,6 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
         // The image that will be shown without expanding the breed:
         private final ImageView shownBreedImgV;
 
-        // The main layout of the row (contains all components of the View-Holder):
-        private final ConstraintLayout mainLayout;
-
         // The expandable part of the row:
         private final ConstraintLayout expandableLayout;
 
@@ -120,11 +118,11 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
             // Loading the expandable layout:
             this.expandableLayout = itemView.findViewById(R.id.breed_expandable_layout);
 
-            // Loading the main layout:
-            this.mainLayout = itemView.findViewById(R.id.breed_main_layout);
+            // The main layout of the row (contains all components of the View-Holder):
+            ConstraintLayout mainLayout = itemView.findViewById(R.id.breed_main_layout);
 
             // Setting an OnClickListener for the main layout:
-            this.mainLayout.setOnClickListener(
+            mainLayout.setOnClickListener(
                     view -> {
                         // Getting the index of the pressed breed:
                         final int pressedIdx = getAdapterPosition();

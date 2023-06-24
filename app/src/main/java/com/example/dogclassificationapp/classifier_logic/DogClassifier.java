@@ -90,8 +90,25 @@ public final class DogClassifier {
      *         the array will be 3 (RGB).
      */
     private static int[][][] getRGBValues(Bitmap img) {
-        // TODO: Complete function as per documentation
-        return null;
+        // Getting the dimensions of the image:
+        final int WIDTH = img.getWidth();
+        final int HEIGHT = img.getHeight();
+
+        // Creating the array that will hold the values:
+        final int[][][] rgbValues = new int[WIDTH][HEIGHT][3];
+
+        // Scanning the pixels and extracting their RGB values:
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                final int pixel = img.getPixel(x, y);
+
+                rgbValues[y][x][0] = (pixel >> 16) & 0xFF; // Red component
+                rgbValues[y][x][1] = (pixel >> 8) & 0xFF; // Green component
+                rgbValues[y][x][2] = pixel & 0xFF; // Blue component
+            }
+        }
+
+        return rgbValues;
     }
 
     public String getLabel(int index) {

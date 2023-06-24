@@ -79,7 +79,7 @@ public class ClassifierActivity extends AppCompatActivity {
      * Initializes the recycler view with the custom BreedAdapter and the "breeds" attribute.
      */
     private void setBreedsRecyclerView() {
-        final BreedAdapter adapter = new BreedAdapter(this.breeds);
+        final BreedAdapter adapter = new BreedAdapter(this.breeds, getResources());
         this.breedsRV.setAdapter(adapter);
         this.breedsRV.setHasFixedSize(true);
     }

@@ -23,11 +23,15 @@ import java.util.ArrayList;
  */
 public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
 
+    // Resources object to handle bitmaps later:
+    private final Resources res;
+
     // A list containing all the breeds in the adapter:
     private final ArrayList<Breed> breedsList;
 
-    public BreedAdapter(ArrayList<Breed> breedsList) {
+    public BreedAdapter(ArrayList<Breed> breedsList, Resources res) {
         this.breedsList = breedsList;
+        this.res = res;
     }
 
     @NonNull
@@ -68,7 +72,7 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
         holder.infoTv.setText(breed.getInfo());
 
         // Setting the information paragraph's image:
-        final Drawable bonusImgDrawable = new BitmapDrawable(Resources.getSystem(), breed.getBonusImg());
+        final Drawable bonusImgDrawable = new BitmapDrawable(this.res, breed.getBonusImg());
         holder.infoTv.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, bonusImgDrawable, null);
 
         // Changing the visibility of the expandable part according to the "expandable" attribute

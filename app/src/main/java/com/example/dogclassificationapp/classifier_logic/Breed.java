@@ -98,9 +98,13 @@ public class Breed {
         // First word is sub-breed, last word is main breed:
         String[] breeds = {words[words.length - 1], ""};
 
-        // If there exists a sub-breed:
-        if (words.length > 1)
-            breeds[1] = words[0];
+        // Adding the remaining words to the sub-breed:
+        for (int i = 0; i < words.length - 1; i++) {
+            if (breeds[1].isEmpty())
+                breeds[1] = words[i];
+            else
+                breeds[1] += " " + words[i];
+        }
 
         return breeds;
     }

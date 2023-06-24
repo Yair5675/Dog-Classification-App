@@ -5,12 +5,15 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.example.dogclassificationapp.ml.DogModelLite;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * A class to handle the logical part of processing and classifying images.
@@ -67,12 +70,13 @@ public final class DogClassifier {
      * contain the probability that the dog inside the given image is of this breed.
      * @param dogImage The image with a dog that the model will process. Its dimensions must be
      *                 256x256 pixels.
-     * @return A list of Breed objects that each contain the probability that the breed of the dog
-     *         in the image is the current breed.
+     * @return If the model was loaded successfully, the function returns a list of Breed objects
+     *         that each contain the probability that the breed of the dog in the image is the
+     *         current breed. If an error occurred, an empty optional is returned.
      */
-    public ArrayList<Breed> getModelPredictions(Bitmap dogImage) {
+    public Optional<ArrayList<Breed>> getModelPredictions(Bitmap dogImage) {
         // TODO: Complete the function as per documentation
-        return null;
+        return Optional.empty();
     }
 
     /**

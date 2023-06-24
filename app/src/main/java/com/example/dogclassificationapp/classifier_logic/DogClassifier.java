@@ -2,10 +2,13 @@ package com.example.dogclassificationapp.classifier_logic;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.example.dogclassificationapp.ml.DogModelLite;
+
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -98,6 +101,31 @@ public final class DogClassifier {
     public Optional<ArrayList<Breed>> getModelPredictions(Bitmap dogImage) {
         // TODO: Complete the function as per documentation
         return Optional.empty();
+    }
+
+    /**
+     * The function accepts the outputs of the model and converts them into an arraylist of Breed
+     * objects.
+     * @param outputs The confidence of the model in each breed (by order).
+     * @return An arraylist of Breed objects that's built using the given confidences of the model.
+     */
+    private ArrayList<Breed> convertOutputsToBreeds(TensorBuffer outputs, Resources res) {
+        // Creating the list:
+        ArrayList<Breed> breeds = new ArrayList<>();
+
+        // Converting the tensor into a float array:
+        final float[] confidences = outputs.getFloatArray();
+
+        // Creating the breeds one by one:
+        for (int i = 0; i < confidences.length; i++) {
+            final Breed current = new Breed(res,
+                                            this.getLabel(i),
+                                            this.getAPILabel(i),
+                                            confidences[i]);
+            breeds.add(current);
+        }
+
+        return breeds;
     }
 
     /**

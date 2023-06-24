@@ -27,44 +27,63 @@ public final class DogClassifier {
     // The different types of dogs the classifier can distinguish:
     private final ArrayList<String> labels;
 
+    // The labels that match the Dog Image API:
+    private final ArrayList<String> apiLabels;
+
     // The size of the image that will be passed into the model:
     private static final int IMAGE_SIZE = 256;
 
+    // The name of the file that contains the normal labels:
+    private static final String LABELS_FILE = "labels.csv";
+
+    // The name of the file that contains the labels that match the Dog Images API:
+    private static final String API_LABELS_FILE = "api_labels.csv";
+
     public DogClassifier(Context context, AssetManager assets) {
         this.context = context;
-        this.labels = DogClassifier.loadLabels(assets);
+
+        // Loading the labels:
+        this.labels = loadLabels(assets, LABELS_FILE).orElse(new ArrayList<>());
+
+        // Loading the API labels:
+        this.apiLabels = loadLabels(assets, API_LABELS_FILE).orElse(new ArrayList<>());
 
         // Printing the labels to the log:
         Log.i("Labels", this.labels.toString());
     }
 
     /**
-     * Loads the classifier labels from the labels.csv file.
+     * The function receives the name of a CSV file that contains labels for the TF-Lite model,
+     * reads that file and returns an arraylist of all labels in that file's first line (which
+     * should b the only line).
+     * @param assets An AssetManager object to allow the function to access the assets folder.
+     * @param labelsFile The name of the csv file that will be read.
+     * @return If reading the file was successful, the function returns an arraylist of all the
+     *         labels that were in the file. If an error occurred, an empty optional is returned.
      */
-    private static ArrayList<String> loadLabels(AssetManager assets) {
-        final String LABELS_FILE = "labels.csv";
-        ArrayList<String> labels = new ArrayList<>();
-
+    private static Optional<ArrayList<String>> loadLabels(AssetManager assets, String labelsFile) {
         try {
-            InputStream inputStream = assets.open(LABELS_FILE);
+            // Opening the file:
+            InputStream inputStream = assets.open(labelsFile);
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
             // Reading the names of the dogs:
             String line = bufferedReader.readLine();
-            labels = new ArrayList<>(Arrays.asList(line.split(",")));
+            ArrayList<String> labels = new ArrayList<>(Arrays.asList(line.split(",")));
 
+            // Closing our readers to free up resources:
             bufferedReader.close();
             inputStreamReader.close();
             inputStream.close();
 
+            return Optional.of(labels);
 
         } catch (IOException e) {
-            Log.e("Dog Classifier", "Failed to load labels");
+            Log.e("Dog Classifier", "Failed to load labels of file \"" + labelsFile + "\"");
             e.printStackTrace();
+            return Optional.empty();
         }
-
-        return labels;
     }
 
     /**

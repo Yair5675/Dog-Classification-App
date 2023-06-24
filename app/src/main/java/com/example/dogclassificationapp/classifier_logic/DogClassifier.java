@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.dogclassificationapp.ml.DogModelLite;
 
+import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.BufferedReader;
@@ -94,13 +95,52 @@ public final class DogClassifier {
      * contain the probability that the dog inside the given image is of this breed.
      * @param dogImage The image with a dog that the model will process. Its dimensions must be
      *                 256x256 pixels.
+     * @param res Resources object in order to have access to the application's resources.
      * @return If the model was loaded successfully, the function returns a list of Breed objects
      *         that each contain the probability that the breed of the dog in the image is the
      *         current breed. If an error occurred, an empty optional is returned.
      */
-    public Optional<ArrayList<Breed>> getModelPredictions(Bitmap dogImage) {
-        // TODO: Complete the function as per documentation
-        return Optional.empty();
+    public Optional<ArrayList<Breed>> getModelPredictions(Bitmap dogImage, Resources res) {
+        // Making sure that the dimensions of the image are valid:
+        final int WIDTH = dogImage.getWidth();
+        final int HEIGHT = dogImage.getHeight();
+
+        if (WIDTH != IMAGE_SIZE || HEIGHT != IMAGE_SIZE) {
+            Log.e("Dog Classifier", "Given image dimensions are incompatible: Width=" + WIDTH + ", Height=" + HEIGHT);
+            return Optional.empty();
+        }
+
+        // If the image's dimensions are correct:
+        try {
+            // Loading the model:
+            DogModelLite model = DogModelLite.newInstance(context);
+
+            // Loading the RGB values:
+            final int[][][] RGB = getRGBValues(dogImage);
+
+            // Loading the values into a byte-buffer:
+            final ByteBuffer byteBuffer = loadRGBIntoByteBuffer(RGB);
+
+            // Creates inputs for reference.
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 256, 256, 3}, DataType.FLOAT32);
+            inputFeature0.loadBuffer(byteBuffer);
+
+            // Running model inference and getting the results:
+            DogModelLite.Outputs outputs = model.process(inputFeature0);
+            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+
+            // Releases model resources:
+            model.close();
+
+            // Converting the outputs into a breeds arraylist:
+            final ArrayList<Breed> breeds = convertOutputsToBreeds(outputFeature0, res);
+            return Optional.of(breeds);
+
+        } catch (IOException e) {
+            Log.e("Dog Classifier", "Failed to load/use model");
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     /**

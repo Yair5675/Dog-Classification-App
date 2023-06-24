@@ -46,11 +46,23 @@ public class Breed {
     // The default image resource that will appear if loading the dog's image failed:
     private static final int DEFAULT_IMG_ID = R.drawable.classifier_default_dog;
 
-    public Breed(Resources res, String name, double confidence) {
+    /**
+     * The constructor of the Breed class.
+     * @param res A resources object to get images from the res.drawable directory.
+     * @param normalBreed The normal name of the dog breed, should be fetched from the "labels.csv"
+     *                    file.
+     * @param apiBreed The name of the dgo breed that suits the dog images API, should be fetched
+     *                 from the "api_labels.csv" file.
+     * @param confidence The confidence of the TF-Lite model that the current breed is the breed of
+     *                   the dog in the image that was given to the model.
+     */
+    public Breed(Resources res, String normalBreed, String apiBreed, double confidence) {
         // Getting the breed and sub-breed:
-        final String[] breeds = getBreedAndSubBreed(name);
-        this.breed = breeds[0];
-        this.subBreed = breeds[1];
+        final String[] normalBreeds = getBreedAndSubBreed(normalBreed);
+
+        // Loading the breed and sub-breed
+        this.breed = normalBreeds[0];
+        this.subBreed = normalBreeds[1];
 
         // Setting confidence:
         this.confidence = confidence;
@@ -64,7 +76,7 @@ public class Breed {
         this.info = wikiInfo.orElse(DEFAULT_INFO);
 
         // Loading two random images of the current breed:
-        final boolean imgSuccessful = this.loadMainAndBonusImages();
+        final boolean imgSuccessful = this.loadMainAndBonusImages(apiBreed);
         // If the images weren't set successfully:
         if (!imgSuccessful) {
             this.mainImg = BitmapFactory.decodeResource(res, DEFAULT_IMG_ID);
@@ -100,9 +112,12 @@ public class Breed {
      * will not be set.
      * @return True if the two image attributes were set successfully, False otherwise.
      */
-    private boolean loadMainAndBonusImages() {
+    private boolean loadMainAndBonusImages(String apiBreed) {
+        // Breaking down the breed into breed and sub-breed:
+        final String[] apiBreeds = getBreedAndSubBreed(apiBreed);
+
         // Loading the images' urls from the API:
-        final Optional<ArrayList<String>> urlsOpt = DogImagesAPI.getImagesURLs(this.breed, this.subBreed, 2);
+        final Optional<ArrayList<String>> urlsOpt = DogImagesAPI.getImagesURLs(apiBreeds[0], apiBreeds[1], 2);
         // If the API failed:
         if (!urlsOpt.isPresent())
             return false;

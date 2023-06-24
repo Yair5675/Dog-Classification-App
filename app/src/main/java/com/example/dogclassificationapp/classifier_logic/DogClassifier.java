@@ -5,8 +5,6 @@ import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.example.dogclassificationapp.ml.DogModelLite;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,9 +16,6 @@ import java.util.Arrays;
  * A singleton to handle the logical part of processing and classifying images.
  */
 public final class DogClassifier {
-    // The actual classifier model:
-    private DogModelLite model;
-
     // The different types of dogs the classifier can distinguish:
     private final ArrayList<String> labels;
 
@@ -32,16 +27,6 @@ public final class DogClassifier {
 
         // Printing the labels to the log:
         Log.i("Labels", this.labels.toString());
-
-        // Loading the model:
-        try {
-            this.model = DogModelLite.newInstance(context);
-
-        } catch (IOException e) {
-            Log.e("Dog Classifier", "Failed to load model");
-            e.printStackTrace();
-        }
-
     }
 
     public static DogClassifier getInstance(Context context, AssetManager assets) {

@@ -1,5 +1,7 @@
 package com.example.dogclassificationapp.custom_views;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +58,7 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
         holder.confidenceTV.setText(confidenceTxt);
 
         // Setting the shown image:
-        holder.shownBreedImgV.setImageDrawable(breed.getMainImg());
+        holder.shownBreedImgV.setImageBitmap(breed.getMainImg());
 
         // Setting the information title:
         holder.infoTitleTV.setText(breed.getFullName());
@@ -65,7 +67,8 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
         holder.infoTv.setText(breed.getInfo());
 
         // Setting the information paragraph's image:
-        holder.infoTv.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, breed.getBonusImg(), null);
+        final Drawable bonusImgDrawable = new BitmapDrawable(breed.getBonusImg());
+        holder.infoTv.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, bonusImgDrawable, null);
 
         // Changing the visibility of the expandable part according to the "expandable" attribute
         // of the current breed:

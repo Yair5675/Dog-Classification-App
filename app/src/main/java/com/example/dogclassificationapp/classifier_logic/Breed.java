@@ -3,11 +3,7 @@ package com.example.dogclassificationapp.classifier_logic;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
-
-import androidx.core.content.res.ResourcesCompat;
 
 import com.example.dogclassificationapp.R;
 import com.example.dogclassificationapp.api_handlers.DogImagesAPI;
@@ -38,14 +34,17 @@ public class Breed {
     private final String info;
 
     // Main and bonus images of a dog of the same breed:
-    private Drawable mainImg;
-    private Drawable bonusImg;
+    private Bitmap mainImg;
+    private Bitmap bonusImg;
 
     // Whether or not the current breed is expanded inside a recyclerView:
     private boolean expanding;
 
     // The default info message that will appear when loading information failed:
     private static final String DEFAULT_INFO = "Loading...";
+
+    // The default image resource that will appear if loading the dog's image failed:
+    private static final int DEFAULT_IMG_ID = R.drawable.classifier_default_dog;
 
     public Breed(Resources res, String name, double confidence) {
         // Getting the breed and sub-breed:
@@ -68,8 +67,8 @@ public class Breed {
         final boolean imgSuccessful = this.loadMainAndBonusImages();
         // If the images weren't set successfully:
         if (!imgSuccessful) {
-            this.mainImg = ResourcesCompat.getDrawable(res, R.drawable.classifier_default_dog, null);
-            this.bonusImg = ResourcesCompat.getDrawable(res, R.drawable.classifier_default_dog, null);
+            this.mainImg = BitmapFactory.decodeResource(res, DEFAULT_IMG_ID);
+            this.bonusImg = BitmapFactory.decodeResource(res, DEFAULT_IMG_ID);
         }
 
     }
@@ -116,8 +115,8 @@ public class Breed {
             return false;
 
         // Loading the main image:
-        final Optional<Drawable> mainImgOpt = getDrawableFromURL(urls.get(0));
-        final Optional<Drawable> bonusImgOpt = getDrawableFromURL(urls.get(1));
+        final Optional<Bitmap> mainImgOpt = getBitmapFromURL(urls.get(0));
+        final Optional<Bitmap> bonusImgOpt = getBitmapFromURL(urls.get(1));
 
         // Making sure the conversion to drawable was successful:
         if (!mainImgOpt.isPresent() || !bonusImgOpt.isPresent())
@@ -136,7 +135,7 @@ public class Breed {
      * @return If the operation was successful the drawable is returned. Otherwise, an empty
      *         optional is returned.
      */
-    private static Optional<Drawable> getDrawableFromURL(String imageUrl) {
+    private static Optional<Bitmap> getBitmapFromURL(String imageUrl) {
         try {
             // Loading the bitmap through the URL:
             HttpURLConnection connection = (HttpURLConnection) new URL(imageUrl).openConnection();
@@ -145,13 +144,10 @@ public class Breed {
 
             Bitmap imageBitmap = BitmapFactory.decodeStream(input);
 
-            // Converting the bitmap to drawable:
-            Drawable imgDrawable = new BitmapDrawable(Resources.getSystem(), imageBitmap);
-
-            return Optional.of(imgDrawable);
+            return Optional.of(imageBitmap);
 
         } catch (IOException e) {
-            Log.e("Breed.java", "Failed loading drawable from URL: \"" + imageUrl + "\"");
+            Log.e("Breed.java", "Failed loading bitmap from URL: \"" + imageUrl + "\"");
             return Optional.empty();
         }
     }
@@ -168,11 +164,11 @@ public class Breed {
         return info;
     }
 
-    public Drawable getMainImg() {
+    public Bitmap getMainImg() {
         return mainImg;
     }
 
-    public Drawable getBonusImg() {
+    public Bitmap getBonusImg() {
         return bonusImg;
     }
 

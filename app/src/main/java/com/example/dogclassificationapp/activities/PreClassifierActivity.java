@@ -206,7 +206,7 @@ public class PreClassifierActivity extends AppCompatActivity {
      */
     private void onConfirmButtonClick(View view) {
         // Sending the image of the dog to the next activity:
-        Intent intent = new Intent();
+        Intent intent = new Intent(this, ClassifierActivity.class);
         intent.putExtra("dog_image", this.dogImage);
 
         // Launching the classifier activity:

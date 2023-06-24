@@ -2,6 +2,7 @@ package com.example.dogclassificationapp.classifier_logic;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -75,7 +76,7 @@ public final class DogClassifier {
      * @return A list of Breed objects that each contain the probability that the breed of the dog
      *         in the image is the current breed.
      */
-    public ArrayList<Breed> getModelPredictions(Drawable dogImage) {
+    public ArrayList<Breed> getModelPredictions(Bitmap dogImage) {
         // TODO: Complete the function as per documentation
         return null;
     }
@@ -88,7 +89,7 @@ public final class DogClassifier {
      *         the array will be similar to the dimensions of the image, and the last dimension of
      *         the array will be 3 (RGB).
      */
-    private static int[][][] getRGBValues(Drawable img) {
+    private static int[][][] getRGBValues(Bitmap img) {
         // TODO: Complete function as per documentation
         return null;
     }

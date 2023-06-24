@@ -80,6 +80,19 @@ public final class DogClassifier {
         return null;
     }
 
+    /**
+     * Given an image in Drawable format, the function extracts the RGB values of the image and
+     * stores them in a three-dimensional array.
+     * @param img The image whose pixels' RGB values will be returned.
+     * @return A three dimensional array of the RGB values of the image. The first two dimensions of
+     *         the array will be similar to the dimensions of the image, and the last dimension of
+     *         the array will be 3 (RGB).
+     */
+    private static int[][][] getRGBValues(Drawable img) {
+        // TODO: Complete function as per documentation
+        return null;
+    }
+
     public String getLabel(int index) {
         return labels.get(index);
     }

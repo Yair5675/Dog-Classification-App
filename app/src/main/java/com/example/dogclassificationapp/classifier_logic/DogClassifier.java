@@ -170,4 +170,8 @@ public final class DogClassifier {
     public String getLabel(int index) {
         return labels.get(index);
     }
+
+    public String getAPILabel(int index) {
+        return apiLabels.get(index);
+    }
 }

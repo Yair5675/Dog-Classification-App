@@ -41,6 +41,22 @@ public class WikiAPI extends API {
     }
 
     /**
+     * The main function of the class, gathers information concurrently about the specified dog
+     * breed and runs the callback that it was given once it is done.
+     * @param breed The name of the dog breed that will be searched.
+     * @param callback An interface containing two functions, one will be executed if the
+     *                 information was received successfully ("onSuccess") and the other will be
+     *                 executed if an error occurred
+     */
+    public static void getInfo(String breed, WikiCallback callback) {
+        // TODO: Run the normal "getInfo" function from here in a separate thread, and run the
+        //  callback function once it's done.
+
+        // TODO: Find a way for the normal "getInfo" to return a description of the error if one was
+        //  raised
+    }
+
+    /**
      * The main function of the class, returns information from Wikipedia about the given breed.
      * @param breed The name of the dog breed that will be searched.
      * @return If the API call was successful the information is returned, but if an error occurred

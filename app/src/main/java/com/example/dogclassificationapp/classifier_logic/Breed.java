@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.dogclassificationapp.R;
 import com.example.dogclassificationapp.api_handlers.DogImagesAPI;
 import com.example.dogclassificationapp.api_handlers.WikiAPI;
+import com.example.dogclassificationapp.util.Result;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -146,15 +146,18 @@ public class Breed {
                 // Making sure the length of the URLs is 2:
                 if (urls.size() == 2) {
                     // Loading the main image:
-                    final Optional<Bitmap> mainImgOpt = getBitmapFromURL(urls.get(0));
-                    final Optional<Bitmap> bonusImgOpt = getBitmapFromURL(urls.get(1));
+                    final Result<Bitmap, String> mainImgOpt = getBitmapFromURL(urls.get(0));
+                    final Result<Bitmap, String> bonusImgOpt = getBitmapFromURL(urls.get(1));
 
-                    // Making sure the conversion to drawable was successful:
-                    if (mainImgOpt.isPresent() && bonusImgOpt.isPresent()) {
-                        // Load the images:
-                        setMainImg(mainImgOpt.get());
-                        setBonusImg(bonusImgOpt.get());
-                    }
+                    // Setting the images that were retrieved successfully:
+                    if (mainImgOpt.isErr())
+                        onError(mainImgOpt.getError());
+                    if (bonusImgOpt.isErr())
+                        onError(bonusImgOpt.getError());
+                    if (mainImgOpt.isOk())
+                        setMainImg(mainImgOpt.getValue());
+                    if (bonusImgOpt.isOk())
+                        setBonusImg(bonusImgOpt.getValue());
                 }
             }
 
@@ -167,17 +170,20 @@ public class Breed {
                 setBonusImg(
                         BitmapFactory.decodeResource(res, DEFAULT_IMG_ID)
                 );
+
+                // Logging the error:
+                Log.e("Dog Images API error", error);
             }
         });
     }
 
     /**
-     * Returns a Drawable object from the URL of an image.
-     * @param imageUrl The URL of the image that will be turned into a drawable.
-     * @return If the operation was successful the drawable is returned. Otherwise, an empty
-     *         optional is returned.
+     * Returns a Bitmap object from the URL of an image.
+     * @param imageUrl The URL of the image that will be turned into a bitmap.
+     * @return If the operation was successful the bitmap is returned. Otherwise, a Result object
+     *         containing details of the error is returned.
      */
-    private static Optional<Bitmap> getBitmapFromURL(String imageUrl) {
+    private static Result<Bitmap, String> getBitmapFromURL(String imageUrl) {
         try {
             // Loading the bitmap through the URL:
             HttpURLConnection connection = (HttpURLConnection) new URL(imageUrl).openConnection();
@@ -186,11 +192,10 @@ public class Breed {
 
             Bitmap imageBitmap = BitmapFactory.decodeStream(input);
 
-            return Optional.of(imageBitmap);
+            return Result.success(imageBitmap);
 
         } catch (IOException e) {
-            Log.e("Breed.java", "Failed loading bitmap from URL: \"" + imageUrl + "\"");
-            return Optional.empty();
+            return Result.failure(e.getMessage());
         }
     }
 

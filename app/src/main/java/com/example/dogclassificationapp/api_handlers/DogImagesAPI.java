@@ -27,6 +27,39 @@ public class DogImagesAPI extends API {
         void onError(String error);
     }
 
+    /**
+     * Gathers URLs of images concurrently from the dog API. Th length of the gathered list of URLs
+     * depends on the numImages parameter, but if this number is too large the API may provide less.
+     * @param breed The breed of the dog that will appear in the images.
+     * @param subBreed The sub-breed of the dog that will appear in the images.
+     * @param numImages The desired amount of images. The actual amount may be less if there aren't
+     *                  enough in the API.
+     * @param callback The callback functions that will run at the end of the API call, when the
+     *                 info is gathered. If the URLs were gathered successfully, the "onSuccess"
+     *                 function will be invoked. Otherwise, the "onError" function will be invoked.
+     */
+    public static void getImagesURLsAsync(String breed, String subBreed, int numImages, DogImagesCallback callback) {
+        // Created the thread that will gather the information:
+        final Thread thread = new Thread(() -> {
+            try {
+                // Getting the URLs:
+                final Result<ArrayList<String>, String> info = getImagesURLs(breed, subBreed, numImages);
+
+                // If the URLs were gathered successfully:
+                if (info.isOk())
+                    callback.onSuccess(info.getValue());
+                // If some error arose:
+                else
+                    callback.onError(info.getError());
+            } catch (Exception e) {
+                // Catch any unforeseen exception that were thrown (just in case):
+                callback.onError(e.getMessage());
+            }
+        });
+
+        // Starting the thread:
+        thread.start();
+    }
 
     /**
      * Returns a list of image URLs from the dog API. The length of the list is the amount of images

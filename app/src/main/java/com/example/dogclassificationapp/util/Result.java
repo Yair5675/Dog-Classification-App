@@ -63,6 +63,14 @@ public class Result <T, E> {
     }
 
     /**
+     * Checks if the current Result object contains an error.
+     * @return True if the current Result object contains an error and not a value, False otherwise.
+     */
+    public boolean isErr() {
+        return this.error != null;
+    }
+
+    /**
      * Returns the value held by the Result object if it is successful, and if not returns the given
      * value.
      * @param other In case the current Result object contains an error, this value will be returned

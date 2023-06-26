@@ -8,7 +8,6 @@ import android.util.Log;
 import com.example.dogclassificationapp.R;
 import com.example.dogclassificationapp.api_handlers.DogImagesAPI;
 import com.example.dogclassificationapp.api_handlers.WikiAPI;
-import com.example.dogclassificationapp.util.Result;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -101,13 +100,7 @@ public class Breed {
         });
 
         // Loading two random images of the current breed:
-        final boolean imgSuccessful = this.loadMainAndBonusImages(apiBreed);
-        // If the images weren't set successfully:
-        if (!imgSuccessful) {
-            this.mainImg = BitmapFactory.decodeResource(res, DEFAULT_IMG_ID);
-            this.bonusImg = BitmapFactory.decodeResource(res, DEFAULT_IMG_ID);
-        }
-
+        this.loadMainAndBonusImages(apiBreed, res);
     }
 
     /**
@@ -137,42 +130,45 @@ public class Breed {
     /**
      * Sends an HTTP request to the dog API and receives two random images of the specified breed.
      * The function then sets the first image as the "mainImg" attribute and the second as the
-     * "bonusImg" attribute. If the HTTP response is some sort of error the two image attributes
-     * will not be set.
-     * @return True if the two image attributes were set successfully, False otherwise.
+     * "bonusImg" attribute. If an error occurred during the process, the main and bonus images will
+     * be set to the default images.
+     * @param apiBreed The full name of the breed (includes both breed and sub-breed).
+     * @param res A Resources object to access the default image in case of an error.
      */
-    private boolean loadMainAndBonusImages(String apiBreed) {
+    private void loadMainAndBonusImages(String apiBreed, Resources res) {
         // Breaking down the breed into breed and sub-breed:
         final String[] apiBreeds = getBreedAndSubBreed(apiBreed);
 
         // Loading the images' urls from the API:
-        final Result<ArrayList<String>, String> urlsOpt = DogImagesAPI.getImagesURLs(apiBreeds[0], apiBreeds[1], 2);
-        // If the API failed:
-        if (!urlsOpt.isOk()) {
-            Log.e("Dog Images error", urlsOpt.getError());
-            return false;
-        }
+        DogImagesAPI.getImagesURLsAsync(apiBreeds[0], apiBreeds[1], 2, new DogImagesAPI.DogImagesCallback() {
+            @Override
+            public void onSuccess(ArrayList<String> urls) {
+                // Making sure the length of the URLs is 2:
+                if (urls.size() == 2) {
+                    // Loading the main image:
+                    final Optional<Bitmap> mainImgOpt = getBitmapFromURL(urls.get(0));
+                    final Optional<Bitmap> bonusImgOpt = getBitmapFromURL(urls.get(1));
 
-        // Unwrapping the links:
-        final ArrayList<String> urls = urlsOpt.getValue();
+                    // Making sure the conversion to drawable was successful:
+                    if (mainImgOpt.isPresent() && bonusImgOpt.isPresent()) {
+                        // Load the images:
+                        setMainImg(mainImgOpt.get());
+                        setBonusImg(bonusImgOpt.get());
+                    }
+                }
+            }
 
-        // Making sure the length of the URLs is 2:
-        if (urls.size() != 2)
-            return false;
-
-        // Loading the main image:
-        final Optional<Bitmap> mainImgOpt = getBitmapFromURL(urls.get(0));
-        final Optional<Bitmap> bonusImgOpt = getBitmapFromURL(urls.get(1));
-
-        // Making sure the conversion to drawable was successful:
-        if (!mainImgOpt.isPresent() || !bonusImgOpt.isPresent())
-            return false;
-
-        // Loading the images:
-        this.mainImg = mainImgOpt.get();
-        this.bonusImg = bonusImgOpt.get();
-
-        return true;
+            @Override
+            public void onError(String error) {
+                // Setting the two images to the default value:
+                setMainImg(
+                        BitmapFactory.decodeResource(res, DEFAULT_IMG_ID)
+                );
+                setBonusImg(
+                        BitmapFactory.decodeResource(res, DEFAULT_IMG_ID)
+                );
+            }
+        });
     }
 
     /**
@@ -216,6 +212,14 @@ public class Breed {
 
     public Bitmap getMainImg() {
         return mainImg;
+    }
+
+    private void setMainImg(Bitmap mainImg) {
+        this.mainImg = mainImg;
+    }
+
+    private void setBonusImg(Bitmap bonusImg) {
+        this.bonusImg = bonusImg;
     }
 
     public Bitmap getBonusImg() {

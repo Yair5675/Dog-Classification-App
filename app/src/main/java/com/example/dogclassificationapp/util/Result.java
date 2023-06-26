@@ -61,4 +61,19 @@ public class Result <T, E> {
     public boolean isOk() {
         return this.value != null;
     }
+
+    /**
+     * Returns the value held by the Result object if it is successful, and if not returns the given
+     * value.
+     * @param other In case the current Result object contains an error, this value will be returned
+     *              instead.
+     * @return If the current Result object is successful, the value it holds is returned. If not,
+     *         the given value is returned.
+     */
+    public T orElse(T other) {
+        if (this.isOk())
+            return this.value;
+        else
+            return other;
+    }
 }

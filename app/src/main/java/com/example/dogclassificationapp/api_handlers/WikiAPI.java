@@ -50,9 +50,27 @@ public class WikiAPI extends API {
      *                 information was received successfully ("onSuccess") and the other will be
      *                 executed if an error occurred
      */
-    public static void getInfo(String breed, WikiCallback callback) {
-        // TODO: Run the normal "getInfo" function from here in a separate thread, and run the
-        //  callback function once it's done.
+    public static void getInfoAsync(String breed, WikiCallback callback) {
+        // Creating a new thread to get the info:
+        final Thread thread = new Thread(() -> {
+            try {
+                // Getting the info:
+                final Result<String, String> result = getInfo(breed);
+
+                // If the API call was successful, invoke the "onSuccess" method:
+                if (result.isOk())
+                    callback.onSuccess(result.getValue());
+                    // If it failed, invoke the "onError" method:
+                else
+                    callback.onError(result.getError());
+            } catch (Exception e) {
+                // Handling any unforeseen exception (just in case):
+                callback.onError(e.getMessage());
+            }
+        });
+
+        // Starting the thread:
+        thread.start();
     }
 
     /**

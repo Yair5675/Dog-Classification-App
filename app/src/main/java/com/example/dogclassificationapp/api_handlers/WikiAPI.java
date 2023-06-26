@@ -1,7 +1,5 @@
 package com.example.dogclassificationapp.api_handlers;
 
-import android.util.Log;
-
 import com.example.dogclassificationapp.util.Result;
 
 import java.net.HttpURLConnection;
@@ -88,7 +86,6 @@ public class WikiAPI extends API {
         // If the get request failed:
         if (!searchResponseOpt.isPresent()) {
             final String ERR = "Search get request failed";
-            Log.e("Wiki error", ERR);
             return Result.failure(ERR);
         }
 
@@ -97,7 +94,6 @@ public class WikiAPI extends API {
         // If converting the response to string format failed:
         if (!searchContentOpt.isPresent()) {
             final String ERR = "Converting search response to string failed";
-            Log.e("Wiki error", ERR);
             return Result.failure(ERR);
         }
 
@@ -106,7 +102,6 @@ public class WikiAPI extends API {
         // If the page ID wasn't successfully extracted:
         if (!pageIdOpt.isPresent()) {
             final String ERR = "Extracting page ID failed";
-            Log.e("Wiki error", ERR);
             return Result.failure(ERR);
         }
 
@@ -115,7 +110,6 @@ public class WikiAPI extends API {
         // If the extract response failed:
         if (!extractResponseOpt.isPresent()) {
             final String ERR = "Extract get request failed";
-            Log.e("Wiki error", ERR);
             return Result.failure(ERR);
         }
 
@@ -124,7 +118,6 @@ public class WikiAPI extends API {
         // If converting the response to string format failed:
         if (!extractContentOpt.isPresent()) {
             final String ERR = "Converting extract response to string failed";
-            Log.e("Wiki error", ERR);
             return Result.failure(ERR);
         }
 
@@ -144,7 +137,6 @@ public class WikiAPI extends API {
         }
         else {
             final String ERR = "Extracting info from extract response failed";
-            Log.e("Wiki error", ERR);
             return Result.failure(ERR);
         }
     }

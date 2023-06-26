@@ -94,6 +94,8 @@ public class Breed {
             public void onError(String error) {
                 // If an error happened, set the info as the default info:
                 setInfo(DEFAULT_INFO);
+                // Log the error:
+                Log.e("Wiki error", error);
             }
         });
 

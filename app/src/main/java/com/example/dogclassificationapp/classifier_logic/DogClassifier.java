@@ -101,6 +101,7 @@ public final class DogClassifier {
      *         current breed. If an error occurred, an empty optional is returned.
      */
     public Optional<ArrayList<Breed>> getModelPredictions(Bitmap dogImage, Resources res) {
+        // TODO: For some reason the max result is always Kerry blue Terrier. Fix that
         // Making sure that the dimensions of the image are valid:
         final int WIDTH = dogImage.getWidth();
         final int HEIGHT = dogImage.getHeight();
@@ -128,6 +129,8 @@ public final class DogClassifier {
             // Running model inference and getting the results:
             DogModelLite.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+            Log.i("Classifier outputs",
+                    Arrays.toString(outputFeature0.getFloatArray()));
 
             // Releases model resources:
             model.close();

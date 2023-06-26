@@ -1,11 +1,13 @@
 package com.example.dogclassificationapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +47,7 @@ public class ClassifierActivity extends AppCompatActivity {
 
         // Loading the recycler-view:
         breedsRV = findViewById(R.id.breeds_list_classifier);
+        breedsRV.setLayoutManager(new LinearLayoutManager(this));
 
         // Initializing the data:
         this.initData(chosenImg);
@@ -69,7 +72,7 @@ public class ClassifierActivity extends AppCompatActivity {
         // Setting the title as the name of the breed with the highest confidence:
         if (this.breeds.size() > 0) {
             final TextView title = findViewById(R.id.result_title_classifier);
-            final String titleTxt = "Result: " + this.breeds.get(0).getFullName();
+            final String titleTxt = "Result: " + this.breeds.get(0).getFullName() + " (" + Math.round(this.breeds.get(0).getConfidence() * 100) + "%)";
             title.setText(titleTxt);
         }
 
@@ -82,5 +85,7 @@ public class ClassifierActivity extends AppCompatActivity {
         final BreedAdapter adapter = new BreedAdapter(this.breeds, getResources());
         this.breedsRV.setAdapter(adapter);
         this.breedsRV.setHasFixedSize(true);
+
+        Log.i("Classifier Activity", "Breeds set");
     }
 }

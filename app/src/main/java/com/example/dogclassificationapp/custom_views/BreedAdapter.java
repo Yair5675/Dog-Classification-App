@@ -3,6 +3,7 @@ package com.example.dogclassificationapp.custom_views;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +81,7 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
         holder.expandableLayout.setVisibility(
                 breed.isExpanding() ? View.VISIBLE : View.GONE
         );
+        Log.i("Breed adapter", "finished");
     }
 
     @Override

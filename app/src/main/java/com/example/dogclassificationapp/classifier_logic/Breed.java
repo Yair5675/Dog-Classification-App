@@ -8,7 +8,6 @@ import android.util.Log;
 import com.example.dogclassificationapp.R;
 import com.example.dogclassificationapp.api_handlers.DogImagesAPI;
 import com.example.dogclassificationapp.api_handlers.WikiAPI;
-import com.example.dogclassificationapp.util.Result;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +33,7 @@ public class Breed {
     private final double confidence;
 
     // Additional info about the breed:
-    private final String info;
+    private String info;
 
     // Main and bonus images of a dog of the same breed:
     private Bitmap mainImg;
@@ -83,10 +82,20 @@ public class Breed {
         // Upon creation the breed object did not expand:
         this.expanding = false;
 
-        // Loading information from Wikipedia:
-        final Result<String, String> wikiInfo = WikiAPI.getInfo(this.getFullName());
-        // If the Wikipedia info was received, set it as the info. If not, set default info:
-        this.info = wikiInfo.orElse(DEFAULT_INFO);
+        // Loading information from Wikipedia concurrently:
+        WikiAPI.getInfoAsync(this.getFullName(), new WikiAPI.WikiCallback() {
+            @Override
+            public void onSuccess(String info) {
+                // If the API call was a success, set the given info as the breed's info:
+                setInfo(info);
+            }
+
+            @Override
+            public void onError(String error) {
+                // If an error happened, set the info as the default info:
+                setInfo(DEFAULT_INFO);
+            }
+        });
 
         // Loading two random images of the current breed:
         final boolean imgSuccessful = this.loadMainAndBonusImages(apiBreed);
@@ -194,6 +203,10 @@ public class Breed {
 
     public String getInfo() {
         return info;
+    }
+
+    private void setInfo(String info) {
+        this.info = info;
     }
 
     public Bitmap getMainImg() {

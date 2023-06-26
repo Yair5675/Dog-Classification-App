@@ -2,6 +2,8 @@ package com.example.dogclassificationapp.api_handlers;
 
 import android.util.Log;
 
+import com.example.dogclassificationapp.util.Result;
+
 import java.net.HttpURLConnection;
 import java.util.Optional;
 
@@ -51,18 +53,15 @@ public class WikiAPI extends API {
     public static void getInfo(String breed, WikiCallback callback) {
         // TODO: Run the normal "getInfo" function from here in a separate thread, and run the
         //  callback function once it's done.
-
-        // TODO: Find a way for the normal "getInfo" to return a description of the error if one was
-        //  raised
     }
 
     /**
      * The main function of the class, returns information from Wikipedia about the given breed.
      * @param breed The name of the dog breed that will be searched.
      * @return If the API call was successful the information is returned, but if an error occurred
-     *         an empty optional is returned.
+     *         a description of the error is returned.
      */
-    public static Optional<String> getInfo(String breed) {
+    public static Result<String, String> getInfo(String breed) {
         // Formatting the breed name to match the URL:
         final String formattedBreed = formatBreedName(breed);
 
@@ -70,51 +69,66 @@ public class WikiAPI extends API {
         final Optional<HttpURLConnection> searchResponseOpt = sendGetRequest(getFormattedSearchUrl(formattedBreed));
         // If the get request failed:
         if (!searchResponseOpt.isPresent()) {
-            Log.e("Wiki error", "Search get request failed");
-            return Optional.empty();
+            final String ERR = "Search get request failed";
+            Log.e("Wiki error", ERR);
+            return Result.failure(ERR);
         }
 
         // Getting the content:
         final Optional<String> searchContentOpt = convertResponseToString(searchResponseOpt.get());
         // If converting the response to string format failed:
         if (!searchContentOpt.isPresent()) {
-            Log.e("Wiki error", "Converting search response to string failed");
-            return Optional.empty();
+            final String ERR = "Converting search response to string failed";
+            Log.e("Wiki error", ERR);
+            return Result.failure(ERR);
         }
 
         // Getting the ID of the first Wikipedia page:
         final Optional<Integer> pageIdOpt = getPageIDFromResponse(searchContentOpt.get());
         // If the page ID wasn't successfully extracted:
         if (!pageIdOpt.isPresent()) {
-            Log.e("Wiki error", "Extracting page ID failed");
-            return Optional.empty();
+            final String ERR = "Extracting page ID failed";
+            Log.e("Wiki error", ERR);
+            return Result.failure(ERR);
         }
 
         // Sending a get request to extract info from the specific page:
         final Optional<HttpURLConnection> extractResponseOpt = sendGetRequest(getFormattedExtractURL(pageIdOpt.get()));
         // If the extract response failed:
         if (!extractResponseOpt.isPresent()) {
-            Log.e("Wiki error", "Extract get request failed");
-            return Optional.empty();
+            final String ERR = "Extract get request failed";
+            Log.e("Wiki error", ERR);
+            return Result.failure(ERR);
         }
 
         // Getting the content of the response:
         final Optional<String> extractContentOpt = convertResponseToString(extractResponseOpt.get());
         // If converting the response to string format failed:
         if (!extractContentOpt.isPresent()) {
-            Log.e("Wiki error", "Converting extract response to string failed");
-            return Optional.empty();
+            final String ERR = "Converting extract response to string failed";
+            Log.e("Wiki error", ERR);
+            return Result.failure(ERR);
         }
 
         // Extracting the info:
         final Optional<String> info = getInfoFromExtractResponse(extractContentOpt.get());
 
-        if (!info.isPresent())
-            Log.e("Wiki error", "Extracting info from extract response failed");
-
-        // Converting the unicode characters in the info to their actual value (if the info
-        // extraction was successful):
-        return info.map(s -> convertUnicode(getInfoUntilTitle(s)));
+        if (info.isPresent()) {
+            return Result.success(
+                        // Converting all unicode chars to their actual value:
+                        convertUnicode(
+                            // Getting the info only until the title:
+                            getInfoUntilTitle(
+                                    info.get()
+                            )
+                        )
+            );
+        }
+        else {
+            final String ERR = "Extracting info from extract response failed";
+            Log.e("Wiki error", ERR);
+            return Result.failure(ERR);
+        }
     }
 
     /**

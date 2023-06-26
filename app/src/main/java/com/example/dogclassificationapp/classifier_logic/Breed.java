@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.dogclassificationapp.R;
 import com.example.dogclassificationapp.api_handlers.DogImagesAPI;
 import com.example.dogclassificationapp.api_handlers.WikiAPI;
+import com.example.dogclassificationapp.util.Result;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,7 +84,7 @@ public class Breed {
         this.expanding = false;
 
         // Loading information from Wikipedia:
-        final Optional<String> wikiInfo = WikiAPI.getInfo(this.getFullName());
+        final Result<String, String> wikiInfo = WikiAPI.getInfo(this.getFullName());
         // If the Wikipedia info was received, set it as the info. If not, set default info:
         this.info = wikiInfo.orElse(DEFAULT_INFO);
 

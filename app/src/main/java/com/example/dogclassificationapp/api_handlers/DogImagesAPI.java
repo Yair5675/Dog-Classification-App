@@ -17,6 +17,17 @@ public class DogImagesAPI extends API {
     // be replaced are: "{breed}", "{sub_breed}", "{num_images}":
     private static final String DOG_IMAGES_ENDPOINT = "https://dog.ceo/api/breed/{breed}/{sub_breed}/images/random/{num_images}";
 
+    // Since the "getImageURLs" function will run in parallel to the main thread, this interface
+    // will serve as a callback when the API call is done:
+    public interface DogImagesCallback {
+        // The function that will run if all info was gathered successfully:
+        void onSuccess(ArrayList<String> urls);
+
+        // The function that will run if a process failed while getting the URLs:
+        void onError(String error);
+    }
+
+
     /**
      * Returns a list of image URLs from the dog API. The length of the list is the amount of images
      * that was given as a parameter.

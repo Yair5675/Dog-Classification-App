@@ -1,6 +1,6 @@
 package com.example.dogclassificationapp.api_handlers;
 
-import android.util.Log;
+import com.example.dogclassificationapp.util.Result;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class DogImagesAPI extends API {
      * @param numImages The amount of images that will be returned
      * @return A list of image URLs from the dog API.
      */
-    public static Optional<ArrayList<String>> getImagesURLs(String breed, String subBreed, int numImages) {
+    public static Result<ArrayList<String>, String> getImagesURLs(String breed, String subBreed, int numImages) {
         // Getting the URL for the appropriate endpoint for the specified breed:
         final String FORMATTED_URL = getFormattedImagesEndpoint(breed, subBreed, numImages);
 
@@ -44,8 +44,8 @@ public class DogImagesAPI extends API {
         final Optional<HttpURLConnection> responseOpt = sendGetRequest(FORMATTED_URL);
         // If the GET request failed:
         if (!responseOpt.isPresent()) {
-            Log.e("Dog Images error", "Get request failed");
-            return Optional.empty();
+            final String ERR = "Get request failed";
+            return Result.failure(ERR);
         }
 
         // Unwrapping and reading the response:
@@ -54,8 +54,8 @@ public class DogImagesAPI extends API {
 
         // If reading the content failed:
         if (!contentOpt.isPresent()) {
-            Log.e("Dog Images error", "Reading content from response failed");
-            return Optional.empty();
+            final String ERR = "Reading content from response failed";
+            return Result.failure(ERR);
         }
 
         // Unwrapping the response's content:
@@ -66,13 +66,13 @@ public class DogImagesAPI extends API {
 
         // If extracting the URLs failed:
         if (!urlsOpt.isPresent()) {
-            Log.e("Dog Images error", "Extracting urls from content failed");
-            return Optional.empty();
+            final String ERR = "Extracting urls from content failed";
+            return Result.failure(ERR);
         }
 
         // Unwrapping the URLs:
         final ArrayList<String> urls = urlsOpt.get();
-        return Optional.of(urls);
+        return Result.success(urls);
     }
 
     /**

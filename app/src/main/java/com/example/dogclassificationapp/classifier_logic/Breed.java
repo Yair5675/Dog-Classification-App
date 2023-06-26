@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.dogclassificationapp.R;
 import com.example.dogclassificationapp.api_handlers.DogImagesAPI;
 import com.example.dogclassificationapp.api_handlers.WikiAPI;
+import com.example.dogclassificationapp.util.Result;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -145,13 +146,15 @@ public class Breed {
         final String[] apiBreeds = getBreedAndSubBreed(apiBreed);
 
         // Loading the images' urls from the API:
-        final Optional<ArrayList<String>> urlsOpt = DogImagesAPI.getImagesURLs(apiBreeds[0], apiBreeds[1], 2);
+        final Result<ArrayList<String>, String> urlsOpt = DogImagesAPI.getImagesURLs(apiBreeds[0], apiBreeds[1], 2);
         // If the API failed:
-        if (!urlsOpt.isPresent())
+        if (!urlsOpt.isOk()) {
+            Log.e("Dog Images error", urlsOpt.getError());
             return false;
+        }
 
         // Unwrapping the links:
-        final ArrayList<String> urls = urlsOpt.get();
+        final ArrayList<String> urls = urlsOpt.getValue();
 
         // Making sure the length of the URLs is 2:
         if (urls.size() != 2)

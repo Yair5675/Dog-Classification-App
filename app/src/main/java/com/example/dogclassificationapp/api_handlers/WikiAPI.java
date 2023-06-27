@@ -20,7 +20,7 @@ public class WikiAPI extends API {
 
 
     // The maximum amount of sentences that will be returned from the getInfo function:
-    private static final int MAX_SENTENCES = 7;
+    private static final int MAX_SENTENCES = 4;
 
     // Since the "getInfo" function must run in parallel to the main thread, this interface will
     // serve as a callback when the function has stopped running:

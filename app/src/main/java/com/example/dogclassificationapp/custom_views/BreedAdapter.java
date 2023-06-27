@@ -1,6 +1,7 @@
 package com.example.dogclassificationapp.custom_views;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -29,6 +30,9 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
 
     // A list containing all the breeds in the adapter:
     private final ArrayList<Breed> breedsList;
+
+    // The maximum size of the main and bonus images:
+    private static final int MAX_IMAGE_SIZE = 400;
 
     public BreedAdapter(ArrayList<Breed> breedsList, Resources res) {
         this.breedsList = breedsList;
@@ -73,7 +77,14 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
         holder.infoTv.setText(breed.getInfo());
 
         // Setting the information paragraph's image:
-        final Drawable bonusImgDrawable = new BitmapDrawable(this.res, breed.getBonusImg());
+        // Setting the max size of the image:
+        Bitmap bonusImg = breed.getBonusImg();
+
+        if (bonusImg != null) {
+            if (bonusImg.getWidth() > MAX_IMAGE_SIZE || bonusImg.getHeight() > MAX_IMAGE_SIZE)
+                bonusImg = Bitmap.createScaledBitmap(bonusImg, MAX_IMAGE_SIZE, MAX_IMAGE_SIZE, false);
+        }
+        final Drawable bonusImgDrawable = new BitmapDrawable(this.res, bonusImg);
         holder.infoTv.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, bonusImgDrawable, null);
 
         // Changing the visibility of the expandable part according to the "expandable" attribute

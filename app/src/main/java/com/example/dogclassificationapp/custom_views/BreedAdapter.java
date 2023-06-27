@@ -2,6 +2,7 @@ package com.example.dogclassificationapp.custom_views;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -131,6 +132,9 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
             this.confidenceTV = itemView.findViewById(R.id.breed_confidence_tv);
             this.infoTitleTV = itemView.findViewById(R.id.breed_info_title);
             this.infoTv = itemView.findViewById(R.id.breed_info_text);
+
+            // Underlining the info title:
+            this.infoTitleTV.setPaintFlags(this.infoTitleTV.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
             // Loading the expandable layout:
             this.expandableLayout = itemView.findViewById(R.id.breed_expandable_layout);

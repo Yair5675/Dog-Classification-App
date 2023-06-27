@@ -101,7 +101,6 @@ public final class DogClassifier {
      *         current breed. If an error occurred, an empty optional is returned.
      */
     public Optional<ArrayList<Breed>> getModelPredictions(Bitmap dogImage, Resources res) {
-        // TODO: For some reason the max result is always Kerry blue Terrier. Fix that
         // Making sure that the dimensions of the image are valid:
         final int WIDTH = dogImage.getWidth();
         final int HEIGHT = dogImage.getHeight();
@@ -194,10 +193,8 @@ public final class DogClassifier {
         for (int[][] row : rgbValues) {
             for (int[] pixel : row) {
                 for (int channel : pixel) {
-                    // Extract the RGB component and normalize it:
-                    final float value = channel / 255.0f;
-                    // Add the normalized value to the ByteBuffer:
-                    byteBuffer.putFloat(value);
+                    // Add the RGB channel to the input:
+                    byteBuffer.putFloat(channel);
                 }
             }
         }

@@ -126,6 +126,8 @@ public class WikiAPI extends API {
 
         if (info.isPresent()) {
             return Result.success(
+                    // Removing all odd characters:
+                    removeOddChars(
                         // Converting all unicode chars to their actual value:
                         convertUnicode(
                             // Getting the info only until the title:
@@ -133,6 +135,7 @@ public class WikiAPI extends API {
                                     info.get()
                             )
                         )
+                    )
             );
         }
         else {
@@ -287,5 +290,32 @@ public class WikiAPI extends API {
             }
         }
         return builder.toString();
+    }
+
+    /**
+     * The function receives a string as an input, and removes the following features in it:
+     *      - Empty brackets
+     *      - Unnecessary "\" chars
+     *      - Double space instead of just one
+     * @param input A string that may or may not contain the features above.
+     * @return A transformed version of the given string without the odd characters.
+     */
+    private static String removeOddChars(String input) {
+        return removeColonNumber(
+                input
+                .replace("()", "")
+                .replace("\\\"", "\"")
+                .replace("  ", " ")
+        );
+    }
+
+    /**
+     * Given a string, the function removes every occurrance of a colon that has a number after it.
+     * @param input A string that may or may not contain weird colons with numbers after them.
+     * @return A transformed version of the input without the colons and numbers.
+     */
+    private static String removeColonNumber(String input) {
+        String pattern = "\\b([^:]+):\\d+\\b";
+        return input.replaceAll(pattern, "$1");
     }
 }

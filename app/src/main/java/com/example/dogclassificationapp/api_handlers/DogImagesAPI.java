@@ -121,6 +121,7 @@ public class DogImagesAPI extends API {
                 .replace("{breed}", breed)
                 .replace("{sub_breed}", subBreed)
                 .replace("{num_images}", Integer.toString(numImages))
+                .replace("//", "/")
                 ;
     }
 

@@ -19,9 +19,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:maxLines="2"
+        android:maxEms="26"
+        android:ems="10"
         android:text="@string/adapter_breeds_title_txt"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/shown_breed_img"
         app:layout_constraintTop_toTopOf="@+id/shown_breed_img" />
 
@@ -48,7 +53,7 @@
             android:id="@+id/breed_info_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="2dp"
+            android:padding="3dp"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@id/breed_expandable_layout"
             app:layout_constraintTop_toTopOf="@id/breed_expandable_layout" />
@@ -57,6 +62,7 @@
             android:id="@+id/breed_info_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:textSize="15sp"
             app:drawableEndCompat="@drawable/classifier_default_dog"
             app:layout_constraintEnd_toEndOf="@id/breed_expandable_layout"

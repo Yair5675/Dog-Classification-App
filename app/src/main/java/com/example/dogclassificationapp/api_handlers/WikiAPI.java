@@ -60,7 +60,7 @@ public class WikiAPI extends API {
      * @return If the API call was successful the information is returned, but if an error occurred
      *         a description of the error is returned.
      */
-    private static Result<String, String> getInfo(String breed) {
+    public static Result<String, String> getInfo(String breed) {
         // Formatting the breed name to match the URL:
         final String formattedBreed = formatBreedName(breed);
 

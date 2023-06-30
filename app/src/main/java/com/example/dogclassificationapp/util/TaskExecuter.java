@@ -20,9 +20,6 @@ public class TaskExecuter <T, E> {
     // The callback functions that will happen once the function was executed:
     private final Callback<T, E> callback;
 
-    // The current amount of times that the function was run:
-    private int currentTry;
-
     // The maximum amount of times that the executer will try to run the function. If the function
     // hadn't yet been executed successfully, the executer will give up. If set to -1, the executer
     // will run the function indefinitely until it is successful:
@@ -42,13 +39,56 @@ public class TaskExecuter <T, E> {
     }
 
     public TaskExecuter(long waitTime, int MAX_TRIES, Task<T, E> task, Callback<T, E> callback) {
-        // Resetting the current try count:
-        this.currentTry = 0;
-
-        // Setting the other attributes:
+        // Setting the attributes:
         this.waitTime = waitTime;
         this.task = task;
         this.callback = callback;
         this.MAX_TRIES = MAX_TRIES;
+    }
+
+    /**
+     * Starts running the task that was given until it is performed successfully or the amount of
+     * times that the function was run exceeded the maximum amount of times set.
+     * The task will be run on a separate thread.
+     */
+    public void start() {
+        // Creating the new thread:
+        final Thread thread = new Thread(() -> {
+            // Saving the current number of attempt:
+            int currentTry = 0;
+
+            boolean taskSuccessful = false;
+            // Keeping looping as long as MAX_TRIES is -1 or the current try is less than the
+            // threshold:
+            while (!taskSuccessful && (MAX_TRIES == -1 || currentTry < MAX_TRIES)) {
+                // Saving the time when the current attempt had started:
+                final long startTime = System.currentTimeMillis();
+
+                // Running the function and getting its result:
+                final Result<T, E> result = this.task.run();
+
+                // If the result is successful, run the "onSuccess" callback and close the loop:
+                if (result.isOk()) {
+                    this.callback.onSuccess(result.getValue());
+                    taskSuccessful = true;
+                }
+                // If the result failed:
+                else {
+                    // Run the "onError" callback:
+                    this.callback.onError(result.getError());
+
+                    // Waiting for the given time to pass:
+                    long currentTime = System.currentTimeMillis();
+                    while (currentTime - startTime < this.waitTime)
+                        currentTime = System.currentTimeMillis();
+                }
+
+                // Adding one to the current try:
+                currentTry++;
+            }
+        });
+
+        // Running the thread:
+        thread.start();
     }
 }

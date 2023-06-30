@@ -294,23 +294,27 @@ public class WikiAPI extends API {
 
     /**
      * The function receives a string as an input, and removes the following features in it:
-     *      - Empty brackets
-     *      - Unnecessary "\" chars
-     *      - Double space instead of just one
+     *      - Empty brackets.
+     *      - Unnecessary "\" chars.
+     *      - Double space instead of just one.
+     *      - Occurrences of a colon and after it a number (example: "hello:125" -> "hello").
+     *      - Unprintable characters.
+     *      - Hair-Space characters (HSP).
      * @param input A string that may or may not contain the features above.
      * @return A transformed version of the given string without the odd characters.
      */
     private static String removeOddChars(String input) {
-        return removeColonNumber(
-                input
-                .replace("()", "")
-                .replace("\\\"", "\"")
-                .replace("  ", " ")
+        return removeColonNumber(input
+                .replace("()", "") // Removing empty brackets
+                .replace("\\\"", "\"") // Removing unnecessary '\"' chars
+                .replace("  ", " ") // Removing double spaces
+                .replaceAll("\\p{C}", "") // Removing unprintable characters
+                .replace("\u200A", "") // Removing hair-space characters
         );
     }
 
     /**
-     * Given a string, the function removes every occurrance of a colon that has a number after it.
+     * Given a string, the function removes every occurrence of a colon that has a number after it.
      * @param input A string that may or may not contain weird colons with numbers after them.
      * @return A transformed version of the input without the colons and numbers.
      */

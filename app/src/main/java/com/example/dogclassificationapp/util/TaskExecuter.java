@@ -17,6 +17,9 @@ public class TaskExecuter <T, E> {
     // The function that the executer will run:
     private final Task <T, E> task;
 
+    // The callback functions that will happen once the function was executed:
+    private final Callback<T, E> callback;
+
     // The current amount of times that the function was run:
     private int currentTry;
 
@@ -38,13 +41,14 @@ public class TaskExecuter <T, E> {
         Result<T, E> run();
     }
 
-    public TaskExecuter(long waitTime, Task<T, E> task, int MAX_TRIES) {
+    public TaskExecuter(long waitTime, int MAX_TRIES, Task<T, E> task, Callback<T, E> callback) {
         // Resetting the current try count:
         this.currentTry = 0;
 
         // Setting the other attributes:
         this.waitTime = waitTime;
         this.task = task;
+        this.callback = callback;
         this.MAX_TRIES = MAX_TRIES;
     }
 }

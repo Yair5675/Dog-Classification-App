@@ -10,29 +10,6 @@ import java.util.Optional;
 public abstract class API {
 
     /**
-     * Since APIs must be run at a separate thread, this interface will represent the callback that
-     * will be run once the API call is finished.
-     * @param <T> The type of the expected value from the API.
-     * @param <E> The type of the error description (if one was raised).
-     */
-    public interface APICallback <T, E> {
-        /**
-         * The function that will be executed if the API call was executed successfully and no
-         * problems occurred.
-         * @param value The value that the API call returned.
-         */
-        void onSuccess(T value);
-
-        /**
-         * The function that will be executed if an error occurred while trying to get the info from
-         * the API.
-         * @param error A short description of the error that occurred.
-         */
-        void onError(E error);
-    }
-
-
-    /**
      * Sends a get request to the given URL and returns the response.
      * @param url The URL to the API which will return a response.
      * @return If the response from the API was successfully received, it is returned. If not, an

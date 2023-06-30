@@ -1,5 +1,6 @@
 package com.example.dogclassificationapp.api_handlers;
 
+import com.example.dogclassificationapp.util.Callback;
 import com.example.dogclassificationapp.util.Result;
 
 import java.net.HttpURLConnection;
@@ -30,7 +31,7 @@ public class WikiAPI extends API {
      *                 information was received successfully ("onSuccess") and the other will be
      *                 executed if an error occurred
      */
-    public static void getInfoAsync(String breed, APICallback<String, String> callback) {
+    public static void getInfoAsync(String breed, Callback<String, String> callback) {
         // Creating a new thread to get the info:
         final Thread thread = new Thread(() -> {
             try {

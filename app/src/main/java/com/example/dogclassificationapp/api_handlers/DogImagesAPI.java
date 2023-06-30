@@ -1,5 +1,6 @@
 package com.example.dogclassificationapp.api_handlers;
 
+import com.example.dogclassificationapp.util.Callback;
 import com.example.dogclassificationapp.util.Result;
 
 import java.net.HttpURLConnection;
@@ -29,7 +30,7 @@ public class DogImagesAPI extends API {
      *                 function will be invoked. Otherwise, the "onError" function will be invoked.
      */
     public static void getImagesURLsAsync(String breed, String subBreed, int numImages,
-                                          APICallback<ArrayList<String>, String> callback) {
+                                          Callback<ArrayList<String>, String> callback) {
         // Created the thread that will gather the information:
         final Thread thread = new Thread(() -> {
             try {

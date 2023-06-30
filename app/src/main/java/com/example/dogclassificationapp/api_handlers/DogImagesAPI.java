@@ -17,16 +17,6 @@ public class DogImagesAPI extends API {
     // be replaced are: "{breed}", "{sub_breed}", "{num_images}":
     private static final String DOG_IMAGES_ENDPOINT = "https://dog.ceo/api/breed/{breed}/{sub_breed}/images/random/{num_images}";
 
-    // Since the "getImageURLs" function will run in parallel to the main thread, this interface
-    // will serve as a callback when the API call is done:
-    public interface DogImagesCallback {
-        // The function that will run if all info was gathered successfully:
-        void onSuccess(ArrayList<String> urls);
-
-        // The function that will run if a process failed while getting the URLs:
-        void onError(String error);
-    }
-
     /**
      * Gathers URLs of images concurrently from the dog API. Th length of the gathered list of URLs
      * depends on the numImages parameter, but if this number is too large the API may provide less.
@@ -38,7 +28,8 @@ public class DogImagesAPI extends API {
      *                 info is gathered. If the URLs were gathered successfully, the "onSuccess"
      *                 function will be invoked. Otherwise, the "onError" function will be invoked.
      */
-    public static void getImagesURLsAsync(String breed, String subBreed, int numImages, DogImagesCallback callback) {
+    public static void getImagesURLsAsync(String breed, String subBreed, int numImages,
+                                          APICallback<ArrayList<String>, String> callback) {
         // Created the thread that will gather the information:
         final Thread thread = new Thread(() -> {
             try {

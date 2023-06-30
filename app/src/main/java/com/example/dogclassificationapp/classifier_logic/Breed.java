@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.example.dogclassificationapp.R;
+import com.example.dogclassificationapp.api_handlers.API;
 import com.example.dogclassificationapp.api_handlers.DogImagesAPI;
 import com.example.dogclassificationapp.api_handlers.WikiAPI;
 import com.example.dogclassificationapp.util.Result;
@@ -83,7 +84,7 @@ public class Breed {
         this.expanding = false;
 
         // Loading information from Wikipedia concurrently:
-        WikiAPI.getInfoAsync(this.getFullName(), new WikiAPI.WikiCallback() {
+        WikiAPI.getInfoAsync(this.getFullName(), new API.APICallback<String, String>() {
             @Override
             public void onSuccess(String info) {
                 // If the API call was a success, set the given info as the breed's info:
@@ -140,7 +141,7 @@ public class Breed {
         final String[] apiBreeds = getBreedAndSubBreed(apiBreed);
 
         // Loading the images' urls from the API:
-        DogImagesAPI.getImagesURLsAsync(apiBreeds[0], apiBreeds[1], 2, new DogImagesAPI.DogImagesCallback() {
+        DogImagesAPI.getImagesURLsAsync(apiBreeds[0], apiBreeds[1], 2, new API.APICallback<ArrayList<String>, String>() {
             @Override
             public void onSuccess(ArrayList<String> urls) {
                 // Making sure the length of the URLs is 2:

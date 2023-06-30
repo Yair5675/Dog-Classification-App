@@ -22,24 +22,6 @@ public class WikiAPI extends API {
     // The maximum amount of sentences that will be returned from the getInfo function:
     private static final int MAX_SENTENCES = 4;
 
-    // Since the "getInfo" function must run in parallel to the main thread, this interface will
-    // serve as a callback when the function has stopped running:
-    public interface WikiCallback {
-        /**
-         * The function that will be executed if the "getInfo" function was executed successfully
-         * and no problems occurred.
-         * @param info The information about the dog breed that was requested.
-         */
-        void onSuccess(String info);
-
-        /**
-         * The function that will be executed if an error occurred while trying to get the info from
-         * Wikipedia.
-         * @param error A short description of the error that occurred
-         */
-        void onError(String error);
-    }
-
     /**
      * The main function of the class, gathers information concurrently about the specified dog
      * breed and runs the callback that it was given once it is done.
@@ -48,7 +30,7 @@ public class WikiAPI extends API {
      *                 information was received successfully ("onSuccess") and the other will be
      *                 executed if an error occurred
      */
-    public static void getInfoAsync(String breed, WikiCallback callback) {
+    public static void getInfoAsync(String breed, APICallback<String, String> callback) {
         // Creating a new thread to get the info:
         final Thread thread = new Thread(() -> {
             try {

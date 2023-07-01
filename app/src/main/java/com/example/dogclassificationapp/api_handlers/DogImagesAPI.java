@@ -3,6 +3,7 @@ package com.example.dogclassificationapp.api_handlers;
 import com.example.dogclassificationapp.util.Callback;
 import com.example.dogclassificationapp.util.Result;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -66,15 +67,15 @@ public class DogImagesAPI extends API {
         final String FORMATTED_URL = getFormattedImagesEndpoint(breed, subBreed, numImages);
 
         // Getting the HTTP response:
-        final Optional<HttpURLConnection> responseOpt = sendGetRequest(FORMATTED_URL);
+        final Result<HttpURLConnection, IOException> responseOpt = sendGetRequest(FORMATTED_URL);
         // If the GET request failed:
-        if (!responseOpt.isPresent()) {
-            final String ERR = "Get request failed";
+        if (responseOpt.isErr()) {
+            final String ERR = "Get request failed: " + responseOpt.getError();
             return Result.failure(ERR);
         }
 
         // Unwrapping and reading the response:
-        final HttpURLConnection response = responseOpt.get();
+        final HttpURLConnection response = responseOpt.getValue();
         final Optional<String> contentOpt = convertResponseToString(response);
 
         // If reading the content failed:

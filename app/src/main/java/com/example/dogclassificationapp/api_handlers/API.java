@@ -1,5 +1,7 @@
 package com.example.dogclassificationapp.api_handlers;
 
+import com.example.dogclassificationapp.util.Result;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,17 +14,17 @@ public abstract class API {
     /**
      * Sends a get request to the given URL and returns the response.
      * @param url The URL to the API which will return a response.
-     * @return If the response from the API was successfully received, it is returned. If not, an
-     *         empty optional will be returned.
+     * @return If the response from the API was successfully received, it is returned. If not, the
+     *         error that occurred will be returned.
      */
-    protected static Optional<HttpURLConnection> sendGetRequest(String url) {
+    protected static Result<HttpURLConnection, IOException> sendGetRequest(String url) {
         try {
             final HttpURLConnection searchConnection = (HttpURLConnection) new URL(url).openConnection();
             searchConnection.setRequestMethod("GET");
-            return Optional.of(searchConnection);
+            return Result.success(searchConnection);
         }
         catch (IOException e) {
-            return Optional.empty();
+            return Result.failure(e);
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.dogclassificationapp.api_handlers;
 import com.example.dogclassificationapp.util.Callback;
 import com.example.dogclassificationapp.util.Result;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Optional;
 
@@ -64,15 +65,15 @@ public class WikiAPI extends API {
         final String formattedBreed = formatBreedName(breed);
 
         // Getting a search response from the API:
-        final Optional<HttpURLConnection> searchResponseOpt = sendGetRequest(getFormattedSearchUrl(formattedBreed));
+        final Result<HttpURLConnection, IOException> searchResponseOpt = sendGetRequest(getFormattedSearchUrl(formattedBreed));
         // If the get request failed:
-        if (!searchResponseOpt.isPresent()) {
-            final String ERR = "Search get request failed";
+        if (searchResponseOpt.isErr()) {
+            final String ERR = "Search get request failed: " + searchResponseOpt.getError();
             return Result.failure(ERR);
         }
 
         // Getting the content:
-        final Optional<String> searchContentOpt = convertResponseToString(searchResponseOpt.get());
+        final Optional<String> searchContentOpt = convertResponseToString(searchResponseOpt.getValue());
         // If converting the response to string format failed:
         if (!searchContentOpt.isPresent()) {
             final String ERR = "Converting search response to string failed";
@@ -88,15 +89,15 @@ public class WikiAPI extends API {
         }
 
         // Sending a get request to extract info from the specific page:
-        final Optional<HttpURLConnection> extractResponseOpt = sendGetRequest(getFormattedExtractURL(pageIdOpt.get()));
+        final Result<HttpURLConnection, IOException> extractResponseOpt = sendGetRequest(getFormattedExtractURL(pageIdOpt.get()));
         // If the extract response failed:
-        if (!extractResponseOpt.isPresent()) {
-            final String ERR = "Extract get request failed";
+        if (extractResponseOpt.isErr()) {
+            final String ERR = "Extract get request failed: " + extractResponseOpt.getError();
             return Result.failure(ERR);
         }
 
         // Getting the content of the response:
-        final Optional<String> extractContentOpt = convertResponseToString(extractResponseOpt.get());
+        final Optional<String> extractContentOpt = convertResponseToString(extractResponseOpt.getValue());
         // If converting the response to string format failed:
         if (!extractContentOpt.isPresent()) {
             final String ERR = "Converting extract response to string failed";

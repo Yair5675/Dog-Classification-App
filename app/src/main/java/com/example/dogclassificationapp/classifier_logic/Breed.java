@@ -84,22 +84,11 @@ public class Breed {
         // Upon creation the breed object did not expand:
         this.expanding = false;
 
-        // Loading information from Wikipedia concurrently:
-        WikiAPI.getInfoAsync(this.getFullName(), new Callback<String, String>() {
-            @Override
-            public void onSuccess(String info) {
-                // If the API call was a success, set the given info as the breed's info:
-                setInfo(info);
-            }
+        // Setting the information initially as the default info:
+        this.info = DEFAULT_INFO;
 
-            @Override
-            public void onError(String error) {
-                // If an error happened, set the info as the default info:
-                setInfo(DEFAULT_INFO);
-                // Log the error:
-                Log.e("Wiki error", error);
-            }
-        });
+        // Loading information from Wikipedia concurrently:
+        this.loadWikiInfo();
 
         // Loading two random images of the current breed:
         this.loadMainAndBonusImages(apiBreed, res);

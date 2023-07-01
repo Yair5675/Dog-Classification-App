@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,20 @@ public class BreedAdapter extends RecyclerView.Adapter<BreedAdapter.BreedVH> {
     public BreedAdapter(ArrayList<Breed> breedsList, Resources res) {
         this.breedsList = breedsList;
         this.res = res;
+
+        // Adding OnDataLoadedListeners to every breed to update them automatically when they finish
+        // loading their info:
+        for (int i = 0; i < this.breedsList.size(); i++) {
+            // Copying the current index to a final variable to use it in the listener:
+            final int finalI = i;
+            // Setting the listener:
+            this.breedsList.get(i).setOnDataLoadedListener(
+                    breed -> {
+                        final Handler handler = new Handler(Looper.getMainLooper());
+                        handler.post(() -> notifyItemChanged(finalI));
+                    }
+            );
+        }
     }
 
     @NonNull

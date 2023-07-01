@@ -6,7 +6,6 @@ import com.example.dogclassificationapp.util.Result;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -88,16 +87,16 @@ public class DogImagesAPI extends API {
         final String content = contentOpt.getValue();
 
         // Getting the URls:
-        final Optional<ArrayList<String>> urlsOpt = getURLsFromResponse(content);
+        final Result<ArrayList<String>, String> urlsOpt = getURLsFromResponse(content);
 
         // If extracting the URLs failed:
-        if (!urlsOpt.isPresent()) {
-            final String ERR = "Extracting urls from content failed";
+        if (urlsOpt.isErr()) {
+            final String ERR = "Extracting urls from content failed: " + urlsOpt.getError();
             return Result.failure(ERR);
         }
 
         // Unwrapping the URLs:
-        final ArrayList<String> urls = urlsOpt.get();
+        final ArrayList<String> urls = urlsOpt.getValue();
         return Result.success(urls);
     }
 
@@ -123,9 +122,9 @@ public class DogImagesAPI extends API {
      * response.
      * @param response The response from the dog API containing various URLs of dog pictures.
      * @return If the function extracts the URLs successfully, it returns those URLs. If something
-     *         went wrong, an empty optional is returned.
+     *         went wrong, a result containing the error is returned.
      */
-    private static Optional<ArrayList<String>> getURLsFromResponse(String response) {
+    private static Result<ArrayList<String>, String> getURLsFromResponse(String response) {
         // Establishing starting and ending tags to extract the URLs later:
         final String startTag = "\"message\":[";
         final String endTag = "],\"status\"";
@@ -136,7 +135,7 @@ public class DogImagesAPI extends API {
 
         // Validating the indices:
         if (startIdx < startTag.length() || endIdx < startIdx)
-            return Optional.empty();
+            return Result.failure("Response doesn't contain any message with URLs");
 
         // Extracting the URLs using regex:
         final String URLS = response.substring(startIdx, endIdx);
@@ -153,6 +152,6 @@ public class DogImagesAPI extends API {
                 // Removing The unnecessary "\" from the links:
                 urlsList.add(url.replace("\\", ""));
 
-        return Optional.of(urlsList);
+        return Result.success(urlsList);
     }
 }

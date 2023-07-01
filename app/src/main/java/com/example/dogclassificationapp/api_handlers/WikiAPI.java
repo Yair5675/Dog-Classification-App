@@ -81,15 +81,15 @@ public class WikiAPI extends API {
         }
 
         // Getting the ID of the first Wikipedia page:
-        final Optional<Integer> pageIdOpt = getPageIDFromResponse(searchContentOpt.getValue());
+        final Result<Integer, String> pageIdOpt = getPageIDFromResponse(searchContentOpt.getValue());
         // If the page ID wasn't successfully extracted:
-        if (!pageIdOpt.isPresent()) {
-            final String ERR = "Extracting page ID failed";
+        if (pageIdOpt.isErr()) {
+            final String ERR = "Extracting page ID failed: " + pageIdOpt.getError();
             return Result.failure(ERR);
         }
 
         // Sending a get request to extract info from the specific page:
-        final Result<HttpURLConnection, IOException> extractResponseOpt = sendGetRequest(getFormattedExtractURL(pageIdOpt.get()));
+        final Result<HttpURLConnection, IOException> extractResponseOpt = sendGetRequest(getFormattedExtractURL(pageIdOpt.getValue()));
         // If the extract response failed:
         if (extractResponseOpt.isErr()) {
             final String ERR = "Extract get request failed: " + extractResponseOpt.getError();
@@ -148,10 +148,10 @@ public class WikiAPI extends API {
     /**
      * Extracts the page ID of the first page in the given Wikipedia response.
      * @param responseString A string version of the Wikipedia response.
-     * @return If the response contains a page ID, the function will return it. If not, an empty
-     *         Optional will be returned.
+     * @return If the response contains a page ID, the function will return it. If not, a
+     *         description of the error is returned.
      */
-    private static Optional<Integer> getPageIDFromResponse(String responseString) {
+    private static Result<Integer, String> getPageIDFromResponse(String responseString) {
         // Creating the tags that will identify the page ID:
         final String startTag = "\"pageid\":";
         final String endTag = ",";
@@ -167,15 +167,15 @@ public class WikiAPI extends API {
             // Making sure the page ID is a number:
             try {
                 final int pageID = Integer.parseInt(pageIDStr);
-                return Optional.of(pageID);
+                return Result.success(pageID);
             }
             catch (NumberFormatException e) {
-                return Optional.empty();
+                return Result.failure("Invalid page ID, couldn't convert to int: " + e);
             }
         }
         // If the response doesn't contain a page ID, return an empty Optional:
         else {
-            return Optional.empty();
+            return Result.failure("Response doesn't include a page ID");
         }
     }
 

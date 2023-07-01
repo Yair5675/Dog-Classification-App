@@ -157,11 +157,19 @@ public class Breed {
                     @Override
                     public void onSuccess(String value) {
                         setInfo(value);
+
+                        // Activating the OnDataLoadedListener:
+                        if (onDataLoadedListener != null)
+                            onDataLoadedListener.onDataLoaded(Breed.this);
                     }
 
                     @Override
                     public void onError(String error) {
                         Log.e("Wiki error", error);
+
+                        // Activating the OnDataLoadedListener:
+                        if (onDataLoadedListener != null)
+                            onDataLoadedListener.onDataLoaded(Breed.this);
                     }
                 });
 
@@ -204,6 +212,10 @@ public class Breed {
                                 setMainImg(mainImgOpt.getValue());
                             if (bonusImgOpt.isOk())
                                 setBonusImg(bonusImgOpt.getValue());
+
+                            // Activating the OnDataLoadedListener:
+                            if (onDataLoadedListener != null)
+                                onDataLoadedListener.onDataLoaded(Breed.this);
                         }
                     }
 
@@ -211,6 +223,10 @@ public class Breed {
                     public void onError(String error) {
                         // Logging the error:
                         Log.e("Dog Images API error", error);
+
+                        // Activating the OnDataLoadedListener:
+                        if (onDataLoadedListener != null)
+                            onDataLoadedListener.onDataLoaded(Breed.this);
                     }
                 }
         );

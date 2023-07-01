@@ -19,7 +19,6 @@ public class WikiAPI extends API {
     // Replace "{numSentences}" and "{pageId}":
     private static final String WIKI_EXTRACT_URL = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exsentences={numSentences}&explaintext=true&pageids={pageId}";
 
-
     // The maximum amount of sentences that will be returned from the getInfo function:
     private static final int MAX_SENTENCES = 4;
 
@@ -41,11 +40,11 @@ public class WikiAPI extends API {
                 // If the API call was successful, invoke the "onSuccess" method:
                 if (result.isOk())
                     callback.onSuccess(result.getValue());
-                    // If it failed, invoke the "onError" method:
+                // If it failed, invoke the "onError" method:
                 else
                     callback.onError(result.getError());
+            // Handling any unforeseen exception (just in case):
             } catch (Exception e) {
-                // Handling any unforeseen exception (just in case):
                 callback.onError(e.getMessage());
             }
         });

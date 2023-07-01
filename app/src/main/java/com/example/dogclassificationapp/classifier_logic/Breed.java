@@ -10,6 +10,7 @@ import com.example.dogclassificationapp.api_handlers.DogImagesAPI;
 import com.example.dogclassificationapp.api_handlers.WikiAPI;
 import com.example.dogclassificationapp.util.Callback;
 import com.example.dogclassificationapp.util.Result;
+import com.example.dogclassificationapp.util.TaskExecuter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -126,6 +127,35 @@ public class Breed {
         }
 
         return breeds;
+    }
+
+    /**
+     * Using the WikiAPI class and the TaskExecuter, the function continuously tries to load info
+     * from Wikipedia about the current breed. If the info can't be loaded after various attempts,
+     * the info will be set to its default value.
+     */
+    private void loadWikiInfo() {
+        // Saving hyper-parameters for the task executer:
+        final long WAIT_TIME = 200;
+        final int MAX_TRIES = 10;
+
+        // Creating the task executer to load the info:
+        final TaskExecuter<String, String> taskExecuter = new TaskExecuter<>(WAIT_TIME, MAX_TRIES,
+                () -> WikiAPI.getInfo(getFullName()),
+                new Callback<String, String>() {
+                    @Override
+                    public void onSuccess(String value) {
+                        setInfo(value);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.e("Wiki error", error);
+                    }
+                });
+
+        // Starting loading the task:
+        taskExecuter.start();
     }
 
     /**

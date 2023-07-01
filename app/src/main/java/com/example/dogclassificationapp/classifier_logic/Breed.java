@@ -91,7 +91,7 @@ public class Breed {
         this.loadWikiInfo();
 
         // Loading two random images of the current breed:
-        this.loadMainAndBonusImages(apiBreed, res);
+        this.loadMainAndBonusImages(apiBreed);
     }
 
     /**
@@ -121,7 +121,7 @@ public class Breed {
     /**
      * Using the WikiAPI class and the TaskExecuter, the function continuously tries to load info
      * from Wikipedia about the current breed. If the info can't be loaded after various attempts,
-     * the info will be set to its default value.
+     * the info will not be changed.
      */
     private void loadWikiInfo() {
         // Saving hyper-parameters for the task executer:
@@ -148,53 +148,53 @@ public class Breed {
     }
 
     /**
-     * Sends an HTTP request to the dog API and receives two random images of the specified breed.
+     * Uses the DogImagesAPI and the TaskExecuter to receive two random images of the current breed.
      * The function then sets the first image as the "mainImg" attribute and the second as the
-     * "bonusImg" attribute. If an error occurred during the process, the main and bonus images will
-     * be set to the default images.
+     * "bonusImg" attribute.
      * @param apiBreed The full name of the breed (includes both breed and sub-breed).
-     * @param res A Resources object to access the default image in case of an error.
      */
-    private void loadMainAndBonusImages(String apiBreed, Resources res) {
+    private void loadMainAndBonusImages(String apiBreed) {
         // Breaking down the breed into breed and sub-breed:
         final String[] apiBreeds = getBreedAndSubBreed(apiBreed);
 
-        // Loading the images' urls from the API:
-        DogImagesAPI.getImagesURLsAsync(apiBreeds[0], apiBreeds[1], 2, new Callback<ArrayList<String>, String>() {
-            @Override
-            public void onSuccess(ArrayList<String> urls) {
-                // Making sure the length of the URLs is 2:
-                if (urls.size() == 2) {
-                    // Loading the main image:
-                    final Result<Bitmap, String> mainImgOpt = getBitmapFromURL(urls.get(0));
-                    final Result<Bitmap, String> bonusImgOpt = getBitmapFromURL(urls.get(1));
+        // Saving hyper-parameters for the task executer:
+        final long WAIT_TIME = 200;
+        final int MAX_TRIES = 10;
 
-                    // Setting the images that were retrieved successfully:
-                    if (mainImgOpt.isErr())
-                        onError(mainImgOpt.getError());
-                    if (bonusImgOpt.isErr())
-                        onError(bonusImgOpt.getError());
-                    if (mainImgOpt.isOk())
-                        setMainImg(mainImgOpt.getValue());
-                    if (bonusImgOpt.isOk())
-                        setBonusImg(bonusImgOpt.getValue());
+        // Creating the task executer that will load the images:
+        final TaskExecuter<ArrayList<String>, String> taskExecuter = new TaskExecuter<>(WAIT_TIME, MAX_TRIES,
+                () -> DogImagesAPI.getImagesURLs(apiBreeds[0], apiBreeds[1], 2),
+                new Callback<ArrayList<String>, String>() {
+                    @Override
+                    public void onSuccess(ArrayList<String> urls) {
+                        // Making sure the length of the URLs is 2:
+                        if (urls.size() == 2) {
+                            // Loading the main image:
+                            final Result<Bitmap, String> mainImgOpt = getBitmapFromURL(urls.get(0));
+                            final Result<Bitmap, String> bonusImgOpt = getBitmapFromURL(urls.get(1));
+
+                            // Setting the images that were retrieved successfully:
+                            if (mainImgOpt.isErr())
+                                onError(mainImgOpt.getError());
+                            if (bonusImgOpt.isErr())
+                                onError(bonusImgOpt.getError());
+                            if (mainImgOpt.isOk())
+                                setMainImg(mainImgOpt.getValue());
+                            if (bonusImgOpt.isOk())
+                                setBonusImg(bonusImgOpt.getValue());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        // Logging the error:
+                        Log.e("Dog Images API error", error);
+                    }
                 }
-            }
+        );
 
-            @Override
-            public void onError(String error) {
-                // Setting the two images to the default value:
-                setMainImg(
-                        BitmapFactory.decodeResource(res, DEFAULT_IMG_ID)
-                );
-                setBonusImg(
-                        BitmapFactory.decodeResource(res, DEFAULT_IMG_ID)
-                );
-
-                // Logging the error:
-                Log.e("Dog Images API error", error);
-            }
-        });
+        // Starting the task executer:
+        taskExecuter.start();
     }
 
     /**

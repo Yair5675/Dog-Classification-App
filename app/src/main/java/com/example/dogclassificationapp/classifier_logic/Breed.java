@@ -50,6 +50,24 @@ public class Breed {
     // The default image resource that will appear if loading the dog's image failed:
     private static final int DEFAULT_IMG_ID = R.drawable.classifier_default_dog;
 
+    // An OnDataLoadedListener to handle what will happen once the Wiki info or the images are
+    // loaded from the appropriate APIs:
+    private OnDataLoadedListener onDataLoadedListener;
+
+    /**
+     * Since the breed's images and information are loaded on a separate thread, this interface
+     * provides a way to handle the event when they are loaded.
+     */
+    public interface OnDataLoadedListener {
+        /**
+         * The function that will be called once the information of the breed or the breed's images
+         * will be loaded.
+         * @param breed The breed whose data was loaded.
+         */
+        void onDataLoaded(Breed breed);
+    }
+
+
     /**
      * The constructor of the Breed class.
      * @param res A resources object to get images from the res.drawable directory.
@@ -261,5 +279,9 @@ public class Breed {
 
     public void setExpanding(boolean expanding) {
         this.expanding = expanding;
+    }
+
+    public void setOnDataLoadedListener(OnDataLoadedListener onDataLoadedListener) {
+        this.onDataLoadedListener = onDataLoadedListener;
     }
 }

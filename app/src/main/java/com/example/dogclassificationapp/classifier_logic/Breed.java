@@ -90,6 +90,10 @@ public class Breed {
         // Loading information from Wikipedia concurrently:
         this.loadWikiInfo();
 
+        // Setting the main and bonus images to their default value initially:
+        this.setMainImg(BitmapFactory.decodeResource(res, DEFAULT_IMG_ID));
+        this.setBonusImg(BitmapFactory.decodeResource(res, DEFAULT_IMG_ID));
+
         // Loading two random images of the current breed:
         this.loadMainAndBonusImages(apiBreed);
     }

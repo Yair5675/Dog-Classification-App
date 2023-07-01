@@ -73,15 +73,15 @@ public class WikiAPI extends API {
         }
 
         // Getting the content:
-        final Optional<String> searchContentOpt = convertResponseToString(searchResponseOpt.getValue());
+        final Result<String, IOException> searchContentOpt = convertResponseToString(searchResponseOpt.getValue());
         // If converting the response to string format failed:
-        if (!searchContentOpt.isPresent()) {
-            final String ERR = "Converting search response to string failed";
+        if (searchContentOpt.isErr()) {
+            final String ERR = "Converting search response to string failed: " + searchContentOpt.getError();
             return Result.failure(ERR);
         }
 
         // Getting the ID of the first Wikipedia page:
-        final Optional<Integer> pageIdOpt = getPageIDFromResponse(searchContentOpt.get());
+        final Optional<Integer> pageIdOpt = getPageIDFromResponse(searchContentOpt.getValue());
         // If the page ID wasn't successfully extracted:
         if (!pageIdOpt.isPresent()) {
             final String ERR = "Extracting page ID failed";
@@ -97,15 +97,15 @@ public class WikiAPI extends API {
         }
 
         // Getting the content of the response:
-        final Optional<String> extractContentOpt = convertResponseToString(extractResponseOpt.getValue());
+        final Result<String, IOException> extractContentOpt = convertResponseToString(extractResponseOpt.getValue());
         // If converting the response to string format failed:
-        if (!extractContentOpt.isPresent()) {
-            final String ERR = "Converting extract response to string failed";
+        if (extractContentOpt.isErr()) {
+            final String ERR = "Converting extract response to string failed: " + extractContentOpt.getError();
             return Result.failure(ERR);
         }
 
         // Extracting the info:
-        final Optional<String> info = getInfoFromExtractResponse(extractContentOpt.get());
+        final Optional<String> info = getInfoFromExtractResponse(extractContentOpt.getValue());
 
         if (info.isPresent()) {
             return Result.success(

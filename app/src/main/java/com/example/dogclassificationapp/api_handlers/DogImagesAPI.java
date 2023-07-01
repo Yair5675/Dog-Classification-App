@@ -76,16 +76,16 @@ public class DogImagesAPI extends API {
 
         // Unwrapping and reading the response:
         final HttpURLConnection response = responseOpt.getValue();
-        final Optional<String> contentOpt = convertResponseToString(response);
+        final Result<String, IOException> contentOpt = convertResponseToString(response);
 
         // If reading the content failed:
-        if (!contentOpt.isPresent()) {
-            final String ERR = "Reading content from response failed";
+        if (contentOpt.isErr()) {
+            final String ERR = "Reading content from response failed: " + contentOpt.getError();
             return Result.failure(ERR);
         }
 
         // Unwrapping the response's content:
-        final String content = contentOpt.get();
+        final String content = contentOpt.getValue();
 
         // Getting the URls:
         final Optional<ArrayList<String>> urlsOpt = getURLsFromResponse(content);

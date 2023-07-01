@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Optional;
 
 public abstract class API {
 
@@ -33,9 +32,9 @@ public abstract class API {
      * Reads the HTTP response and converts it to String.
      * @param response An HTTP response that will be read.
      * @return If no error occurs, the function returns the given response's content in String
-     *         format. If an error occurred, an empty Optional is returned.
+     *         format. If an error occurred, it is returned.
      */
-    protected static Optional<String> convertResponseToString(HttpURLConnection response) {
+    protected static Result<String, IOException> convertResponseToString(HttpURLConnection response) {
         try {
             // Making variables to read the response:
             StringBuilder contentBuilder = new StringBuilder();
@@ -48,10 +47,10 @@ public abstract class API {
             contentReader.close();
 
             // Returning the content:
-            return Optional.of(contentBuilder.toString());
+            return Result.success(contentBuilder.toString());
         }
         catch (IOException e) {
-            return Optional.empty();
+            return Result.failure(e);
         }
     }
 }

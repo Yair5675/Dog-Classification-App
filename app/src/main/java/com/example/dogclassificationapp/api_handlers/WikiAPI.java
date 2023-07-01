@@ -5,7 +5,6 @@ import com.example.dogclassificationapp.util.Result;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Optional;
 
 /**
  * A utility class for retrieving information from the Wikipedia API.
@@ -105,9 +104,9 @@ public class WikiAPI extends API {
         }
 
         // Extracting the info:
-        final Optional<String> info = getInfoFromExtractResponse(extractContentOpt.getValue());
+        final Result<String, String> info = getInfoFromExtractResponse(extractContentOpt.getValue());
 
-        if (info.isPresent()) {
+        if (info.isOk()) {
             return Result.success(
                     // Removing all odd characters:
                     removeOddChars(
@@ -115,14 +114,14 @@ public class WikiAPI extends API {
                         convertUnicode(
                             // Getting the info only until the title:
                             getInfoUntilTitle(
-                                    info.get()
+                                    info.getValue()
                             )
                         )
                     )
             );
         }
         else {
-            final String ERR = "Extracting info from extract response failed";
+            final String ERR = "Extracting info from extract response failed: " + info.getError();
             return Result.failure(ERR);
         }
     }
@@ -198,10 +197,10 @@ public class WikiAPI extends API {
      * Receives the response in a string format and returns only the information about the dog breed
      * in the response.
      * @param responseString The response of the extract request in a string format.
-     * @return If there is information about the dog breed, it returns it. If not, an empty optional
-     *         is returned.
+     * @return If there is information about the dog breed, it returns it. If not, a result
+     *         detailing the error is returned.
      */
-    private static Optional<String> getInfoFromExtractResponse(String responseString) {
+    private static Result<String, String> getInfoFromExtractResponse(String responseString) {
         // Creating tags that will identify the information part in the response:
         final String startTag = "\"extract\":\"";
         final String endTag = "\"}";
@@ -213,11 +212,11 @@ public class WikiAPI extends API {
             final int endIdx = startIdx + responseString.substring(startIdx).indexOf(endTag);
 
             // Returning the information:
-            return Optional.of(responseString.substring(startIdx, endIdx));
+            return Result.success(responseString.substring(startIdx, endIdx));
         }
         // If they aren't present, return an empty optional:
         else {
-            return Optional.empty();
+            return Result.failure("Response doesn't contain extract tag");
         }
     }
 
